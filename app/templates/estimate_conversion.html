@@ -1,0 +1,72 @@
+{% extends "base.html" %}
+{% block title %}Estimate Conversion | AutoRO Communication Layer{% endblock %}
+{% block page_id %}estimate-conversion{% endblock %}
+
+{% block content %}
+<section class="page-head">
+  <div>
+    <p class="eyebrow">Estimate decision documents</p>
+    <h1>Estimate Conversion</h1>
+  </div>
+  <div>
+    <em id="status-estimate" class="status-pill" data-state="unknown">Checking</em>
+  </div>
+</section>
+
+<section class="translator-layout">
+  <form id="estimate-conversion-form" class="panel stack">
+    <h2>Build Customer Document</h2>
+
+    <div class="segmented-control-container">
+      <span class="label-text">Mode</span>
+      <div class="segmented-control">
+        <input type="radio" id="mode-preestimate" name="mode" value="preestimate" checked>
+        <label for="mode-preestimate">Pre-estimate - out of shop</label>
+
+        <input type="radio" id="mode-quote" name="mode" value="quote">
+        <label for="mode-quote">Estimate - in shop</label>
+
+        <input type="radio" id="mode-proposal" name="mode" value="proposal">
+        <label for="mode-proposal">Custom build package - in/out of shop</label>
+      </div>
+    </div>
+
+    <label>Estimate PDF
+      <input id="estimate-file-input" type="file" accept="application/pdf">
+    </label>
+    <div id="estimate-drop-zone" class="file-drop-zone">
+      <strong>Drop estimate PDF here</strong>
+      <span>or use the file picker above</span>
+    </div>
+
+    <input name="input_pdf" type="hidden">
+    <input name="prefix" type="hidden" value="autoro_estimate">
+    <input name="model_name" type="hidden" value="">
+
+    <div class="button-row">
+      <button id="estimate-run-button" class="primary-button" type="submit">Build PDF</button>
+    </div>
+  </form>
+
+  <section class="stack">
+    <article class="panel">
+      <div class="panel-head row-layout justify-between" style="display: flex; align-items: center; justify-content: space-between;">
+        <h2>PDF Preview</h2>
+        <a id="download-pdf-link" class="secondary-button size-sm" style="display: none; padding: 4px 12px; font-size: 0.8rem; margin-right: 8px;" download>Download PDF</a>
+        <a id="open-pdf-link" class="secondary-button size-sm" style="display: none; padding: 4px 12px; font-size: 0.8rem;" target="_blank" rel="noopener">Open in New Tab</a>
+      </div>
+      <div id="estimate-preview" class="output-empty pdf-preview-empty">No PDF built yet.</div>
+      <div id="inshop-input-container" style="display: none; flex-direction: column; gap: 15px; width: 100%;">
+        <label style="display: flex; flex-direction: column; gap: 5px; font-weight: bold; text-align: left;">
+          <span id="estimate-primary-notes-label">Customer Complaint / Reason for visit</span>
+          <textarea id="inshop-customer-complaint" style="min-height: 140px; width: 100%; border-radius: 6px; background: rgba(255,255,255,0.08); color: #fff; border: 1px solid var(--line); padding: 10px; font-family: inherit; font-size: 0.9rem; resize: vertical;" placeholder="Customer requests a general maintenance inspection..."></textarea>
+        </label>
+        <label style="display: flex; flex-direction: column; gap: 5px; font-weight: bold; text-align: left;">
+          <span id="estimate-secondary-notes-label">Technician Findings / Story</span>
+          <textarea id="inshop-tech-findings" style="min-height: 140px; width: 100%; border-radius: 6px; background: rgba(255,255,255,0.08); color: #fff; border: 1px solid var(--line); padding: 10px; font-family: inherit; font-size: 0.9rem; resize: vertical;" placeholder="Completed maintenance inspection. Found..."></textarea>
+        </label>
+      </div>
+    </article>
+  </section>
+</section>
+{% endblock %}

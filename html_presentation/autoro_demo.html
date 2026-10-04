@@ -1,0 +1,2029 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>AutoRO — Estimate Conversion & Customer Link Portal Demo</title>
+
+  <!-- Google Fonts: Inter -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+  <style>
+    :root {
+      color-scheme: dark;
+      --bg: #121212;
+      --panel: #1d1f21;
+      --panel-2: #25282b;
+      --line: #3a3d40;
+      --text: #f6f6f4;
+      --muted: #b6b8b9;
+      --red: #c91521;
+      --red-dark: #8f1018;
+      --green: #22c55e;
+      --green-dark: #15803d;
+      --amber: #f59e0b;
+      --white: #ffffff;
+      --field: #101112;
+      --focus: #f0c44c;
+      --accent-blue: #3b82f6;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      background:
+        linear-gradient(135deg, rgba(201, 21, 33, 0.12), transparent 34rem),
+        linear-gradient(180deg, #161719 0%, var(--bg) 24rem);
+      color: var(--text);
+      font-family: 'Inter', ui-sans-serif, system-ui, sans-serif;
+      line-height: 1.5;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    a { color: inherit; text-decoration: none; }
+
+    /* Topbar Navigation */
+    .topbar {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 1.5rem;
+      padding: 0.8rem clamp(1rem, 4vw, 2.5rem);
+      border-bottom: 1px solid var(--line);
+      background: rgba(18, 18, 18, 0.94);
+      backdrop-filter: blur(12px);
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 0.85rem;
+    }
+
+    .brand-logo-img {
+      height: 3.2rem;
+      width: auto;
+      object-fit: contain;
+      filter: drop-shadow(0 2px 8px rgba(201, 21, 33, 0.4));
+    }
+
+    .brand strong { display: block; font-size: 1.05rem; font-weight: 800; letter-spacing: -0.01em; }
+    .brand small { display: block; color: var(--muted); font-size: 0.78rem; }
+
+    .nav {
+      display: flex;
+      gap: 0.4rem;
+      flex-wrap: wrap;
+    }
+
+    .nav-tab {
+      border: 1px solid var(--line);
+      border-radius: 6px;
+      padding: 0.45rem 0.85rem;
+      font-size: 0.85rem;
+      font-weight: 500;
+      color: var(--text);
+      background: rgba(255, 255, 255, 0.04);
+      display: flex;
+      align-items: center;
+      gap: 0.4rem;
+      transition: all 0.15s ease;
+    }
+
+    .nav-tab.active {
+      background: var(--red);
+      border-color: var(--red);
+      color: var(--white);
+      font-weight: 600;
+    }
+
+    .nav-tab.muted {
+      opacity: 0.45;
+      cursor: not-allowed;
+      border-color: rgba(255,255,255,0.06);
+    }
+
+    .nav-tab.muted .lock-badge {
+      font-size: 0.68rem;
+      background: rgba(0,0,0,0.4);
+      padding: 1px 5px;
+      border-radius: 4px;
+      color: var(--muted);
+    }
+
+    /* Layout Shell */
+    .shell {
+      width: min(1580px, 96%);
+      margin: 0 auto;
+      padding: 1.5rem 0 3rem;
+      flex: 1;
+    }
+
+    .page-head {
+      display: flex;
+      align-items: flex-end;
+      justify-content: space-between;
+      gap: 1rem;
+      margin-bottom: 1.25rem;
+    }
+
+    .eyebrow {
+      text-transform: uppercase;
+      font-size: 0.75rem;
+      font-weight: 800;
+      letter-spacing: 0.08em;
+      color: var(--muted);
+      margin-bottom: 0.2rem;
+    }
+
+    .page-head h1 {
+      font-size: clamp(1.6rem, 3vw, 2.4rem);
+      font-weight: 800;
+      letter-spacing: -0.02em;
+    }
+
+    .status-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      padding: 0.35rem 0.85rem;
+      border-radius: 999px;
+      font-size: 0.8rem;
+      font-weight: 600;
+      background: rgba(34, 197, 94, 0.15);
+      color: #4ade80;
+      border: 1px solid rgba(34, 197, 94, 0.3);
+    }
+
+    .status-pill .dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: #4ade80;
+      box-shadow: 0 0 8px #4ade80;
+    }
+
+    /* Main Grid Split */
+    .demo-grid {
+      display: grid;
+      grid-template-columns: 1.22fr 0.78fr;
+      gap: 1.5rem;
+      align-items: start;
+    }
+
+    @media (max-width: 1180px) {
+      .demo-grid { grid-template-columns: 1fr; }
+    }
+
+    /* Panels */
+    .panel {
+      background: var(--panel);
+      border: 1px solid var(--line);
+      border-radius: 12px;
+      padding: 1.25rem 1.4rem;
+      box-shadow: 0 8px 24px rgba(0,0,0,0.3);
+    }
+
+    .panel-head {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 1rem;
+    }
+
+    .panel h2 {
+      font-size: 1.15rem;
+      font-weight: 700;
+    }
+
+    /* Segmented Control */
+    .segmented-control-container {
+      margin-bottom: 1.2rem;
+    }
+
+    .segmented-control-container .label-text {
+      display: block;
+      font-size: 0.82rem;
+      font-weight: 600;
+      margin-bottom: 0.4rem;
+      color: var(--muted);
+    }
+
+    .segmented-control {
+      display: flex;
+      background: var(--field);
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      padding: 3px;
+      gap: 2px;
+    }
+
+    .segmented-control input { display: none; }
+
+    .segmented-control label {
+      flex: 1;
+      text-align: center;
+      padding: 0.5rem 0.6rem;
+      font-size: 0.82rem;
+      font-weight: 500;
+      border-radius: 6px;
+      cursor: pointer;
+      color: var(--muted);
+      transition: all 0.15s ease;
+    }
+
+    .segmented-control input:checked + label {
+      background: var(--panel-2);
+      color: var(--text);
+      font-weight: 600;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.4);
+    }
+
+    /* Sample PDF Cards Bar */
+    .samples-bar {
+      margin-bottom: 1.2rem;
+    }
+
+    .samples-title {
+      font-size: 0.82rem;
+      font-weight: 600;
+      color: var(--muted);
+      margin-bottom: 0.5rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .samples-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 0.6rem;
+    }
+
+    .sample-card {
+      background: var(--field);
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      padding: 0.6rem 0.75rem;
+      cursor: pointer;
+      transition: all 0.15s ease;
+      user-select: none;
+    }
+
+    .sample-card:hover, .sample-card.active {
+      border-color: var(--red);
+      background: rgba(201, 21, 33, 0.1);
+      transform: translateY(-1px);
+    }
+
+    .sample-card-header {
+      display: flex;
+      align-items: center;
+      gap: 0.4rem;
+      font-size: 0.78rem;
+      font-weight: 700;
+      margin-bottom: 0.2rem;
+      color: var(--white);
+    }
+
+    .sample-card-desc {
+      font-size: 0.72rem;
+      color: var(--muted);
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .sample-card-price {
+      font-size: 0.75rem;
+      font-weight: 700;
+      color: #4ade80;
+      margin-top: 0.2rem;
+    }
+
+    /* Drop Zone */
+    .file-drop-zone {
+      border: 2px dashed var(--line);
+      border-radius: 10px;
+      padding: 1.5rem 1rem;
+      text-align: center;
+      background: rgba(16, 17, 18, 0.6);
+      cursor: pointer;
+      transition: all 0.15s ease;
+      margin-bottom: 1.2rem;
+    }
+
+    .file-drop-zone:hover, .file-drop-zone.dragover {
+      border-color: var(--red);
+      background: rgba(201, 21, 33, 0.08);
+    }
+
+    .file-drop-zone svg {
+      width: 2.2rem;
+      height: 2.2rem;
+      fill: var(--muted);
+      margin-bottom: 0.4rem;
+    }
+
+    .file-drop-zone strong { display: block; font-size: 0.95rem; margin-bottom: 0.2rem; }
+    .file-drop-zone span { font-size: 0.8rem; color: var(--muted); }
+
+    .browse-btn {
+      display: inline-block;
+      margin-top: 0.6rem;
+      padding: 0.35rem 0.8rem;
+      background: rgba(255,255,255,0.08);
+      border: 1px solid var(--line);
+      border-radius: 6px;
+      font-size: 0.78rem;
+      font-weight: 600;
+      color: var(--text);
+    }
+
+    /* Preflight Sanity Box */
+    .sanity-box {
+      background: rgba(245, 158, 11, 0.08);
+      border: 1px solid rgba(245, 158, 11, 0.3);
+      border-radius: 8px;
+      padding: 0.85rem 1rem;
+      margin-bottom: 1.2rem;
+    }
+
+    .sanity-box-head {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      font-size: 0.85rem;
+      font-weight: 700;
+      color: #fbbf24;
+      margin-bottom: 0.4rem;
+    }
+
+    .sanity-bullets {
+      list-style: none;
+      font-size: 0.78rem;
+      color: #fef08a;
+      display: flex;
+      flex-direction: column;
+      gap: 0.3rem;
+    }
+
+    .sanity-bullets li {
+      display: flex;
+      align-items: flex-start;
+      gap: 0.4rem;
+    }
+
+    /* Buttons */
+    .primary-button {
+      width: 100%;
+      background: var(--red);
+      color: var(--white);
+      border: 1px solid var(--red);
+      border-radius: 8px;
+      padding: 0.75rem 1.2rem;
+      font-size: 0.95rem;
+      font-weight: 700;
+      cursor: pointer;
+      box-shadow: 0 4px 14px rgba(201, 21, 33, 0.4);
+      transition: all 0.15s ease;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.5rem;
+    }
+
+    .primary-button:hover {
+      background: var(--red-dark);
+      border-color: var(--red-dark);
+      transform: translateY(-1px);
+    }
+
+    /* Output Sections */
+    .preview-container {
+      margin-top: 1.2rem;
+      border-top: 1px solid var(--line);
+      padding-top: 1rem;
+    }
+
+    /* EXACT EXPORTED PDF DOCUMENT LAYOUT MATCHING PROGRAM PDF OUTPUT */
+    .pdf-export-paper {
+      background: #ffffff;
+      color: #111111;
+      border-radius: 4px;
+      box-shadow: 0 12px 36px rgba(0,0,0,0.6);
+      margin-bottom: 1.2rem;
+      display: flex;
+      overflow: hidden;
+      font-family: 'Inter', system-ui, sans-serif;
+      border: 1px solid #d4d4d8;
+    }
+
+    .pdf-sidebar-col {
+      width: 220px;
+      background: #f4f4f6;
+      border-right: 1px solid #e4e4e7;
+      padding: 1.2rem 1rem;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      border-top: 5px solid #c91521;
+    }
+
+    .pdf-sidebar-logo {
+      width: 130px;
+      height: auto;
+      margin: 0 auto 0.8rem;
+      display: block;
+    }
+
+    .pdf-shop-contact-info {
+      text-align: center;
+      font-size: 0.72rem;
+      color: #4b5563;
+      line-height: 1.35;
+    }
+
+    .pdf-shop-contact-info strong {
+      font-size: 0.85rem;
+      color: #111827;
+      display: block;
+      margin-bottom: 0.2rem;
+    }
+
+    .pdf-estimated-total-card {
+      margin-top: 1.5rem;
+      border-top: 1px solid #d1d5db;
+      padding-top: 0.9rem;
+    }
+
+    .pdf-estimated-total-card .lbl {
+      font-size: 0.65rem;
+      font-weight: 800;
+      color: #6b7280;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+
+    .pdf-estimated-total-card .val {
+      font-size: 1.6rem;
+      font-weight: 900;
+      color: #c91521;
+      line-height: 1.1;
+      margin-top: 0.1rem;
+    }
+
+    .pdf-sidebar-footer {
+      font-size: 0.62rem;
+      color: #9ca3af;
+      margin-top: 1.8rem;
+      line-height: 1.3;
+    }
+
+    .pdf-main-col {
+      flex: 1;
+      padding: 1.2rem 1.4rem;
+      font-size: 0.78rem;
+      color: #1f2937;
+    }
+
+    .pdf-header-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 0.8rem;
+    }
+
+    .pdf-header-title {
+      font-size: 1.3rem;
+      font-weight: 800;
+      color: #991b1b;
+      letter-spacing: -0.01em;
+    }
+
+    .pdf-badge-uninspected {
+      background: #991b1b;
+      color: #ffffff;
+      font-size: 0.65rem;
+      font-weight: 800;
+      padding: 3px 8px;
+      border-radius: 2px;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+    }
+
+    .pdf-customer-box {
+      background: #f8fafc;
+      border: 1px solid #e2e8f0;
+      border-top: 3px solid #991b1b;
+      border-radius: 4px;
+      padding: 0.65rem 0.85rem;
+      margin-bottom: 1rem;
+      display: flex;
+      justify-content: space-between;
+    }
+
+    .pdf-customer-field label {
+      display: block;
+      font-size: 0.68rem;
+      font-weight: 700;
+      color: #64748b;
+      text-transform: uppercase;
+    }
+
+    .pdf-customer-field strong {
+      font-size: 0.85rem;
+      font-weight: 800;
+      color: #0f172a;
+    }
+
+    .pdf-section-heading {
+      font-weight: 800;
+      font-size: 0.85rem;
+      color: #111827;
+      margin-bottom: 0.6rem;
+      border-bottom: 1px solid #e2e8f0;
+      padding-bottom: 0.3rem;
+    }
+
+    /* Program Job Item Cards */
+    .pdf-program-job-card {
+      border: 1px solid #e2e8f0;
+      border-radius: 4px;
+      margin-bottom: 0.75rem;
+      background: #ffffff;
+      overflow: hidden;
+    }
+
+    .pdf-pjob-head {
+      display: flex;
+      justify-content: space-between;
+      font-weight: 800;
+      font-size: 0.85rem;
+      color: #111827;
+      padding: 0.5rem 0.75rem;
+      background: #ffffff;
+    }
+
+    .pdf-pjob-head .num {
+      color: #c91521;
+      margin-right: 0.3rem;
+    }
+
+    .pdf-pjob-head .price {
+      color: #c91521;
+      font-size: 0.92rem;
+    }
+
+    .pdf-pjob-body {
+      padding: 0.4rem 0.75rem 0.6rem;
+    }
+
+    .pdf-pjob-meta-row {
+      display: flex;
+      gap: 1.5rem;
+      margin-bottom: 0.35rem;
+    }
+
+    .pdf-pjob-meta-col {
+      flex: 1;
+    }
+
+    .pdf-pjob-meta-lbl {
+      font-size: 0.65rem;
+      font-weight: 800;
+      color: #991b1b;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+    }
+
+    .pdf-pjob-meta-val {
+      font-size: 0.75rem;
+      color: #374151;
+      line-height: 1.35;
+    }
+
+    .pdf-pjob-note {
+      font-size: 0.7rem;
+      color: #6b7280;
+      font-style: italic;
+      margin-top: 0.3rem;
+    }
+
+    .pdf-pjob-foot-strip {
+      background: #f1f5f9;
+      border-top: 1px solid #e2e8f0;
+      padding: 0.3rem 0.75rem;
+      display: flex;
+      gap: 2rem;
+      font-size: 0.72rem;
+      color: #475569;
+    }
+
+    /* Program Ticket & Totals Bottom Section */
+    .pdf-bottom-grid {
+      display: grid;
+      grid-template-columns: 1.25fr 0.75fr;
+      gap: 0.8rem;
+      margin-top: 1rem;
+    }
+
+    .pdf-auth-ticket-box {
+      border: 1px solid #fca5a5;
+      background: #fff5f5;
+      border-radius: 4px;
+      padding: 0.65rem 0.8rem;
+    }
+
+    .pdf-auth-ticket-head {
+      font-size: 0.72rem;
+      font-weight: 800;
+      color: #991b1b;
+      letter-spacing: 0.05em;
+      margin-bottom: 0.3rem;
+    }
+
+    .pdf-auth-options {
+      font-size: 0.72rem;
+      color: #1f2937;
+      margin-bottom: 0.5rem;
+    }
+
+    .pdf-auth-btn-row {
+      display: flex;
+      gap: 0.4rem;
+    }
+
+    .pdf-auth-btn {
+      background: #991b1b;
+      color: #ffffff;
+      padding: 0.3rem 0.6rem;
+      border-radius: 3px;
+      font-size: 0.68rem;
+      font-weight: 700;
+    }
+
+    .pdf-totals-summary-box {
+      border: 1px solid #e2e8f0;
+      border-radius: 4px;
+      overflow: hidden;
+    }
+
+    .pdf-tsum-row {
+      display: flex;
+      justify-content: space-between;
+      padding: 0.3rem 0.6rem;
+      font-size: 0.75rem;
+      border-bottom: 1px solid #f1f5f9;
+      color: #334155;
+    }
+
+    .pdf-tsum-row.grand {
+      background: #991b1b;
+      color: #ffffff;
+      font-weight: 800;
+      font-size: 0.88rem;
+      border-bottom: none;
+    }
+
+    .link-share-box {
+      background: var(--field);
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      padding: 0.85rem 1rem;
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+    }
+
+    .link-share-box label {
+      font-size: 0.78rem;
+      font-weight: 700;
+      color: var(--muted);
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+
+    .link-row {
+      display: flex;
+      gap: 0.5rem;
+    }
+
+    .link-input {
+      flex: 1;
+      background: var(--panel);
+      border: 1px solid var(--line);
+      border-radius: 6px;
+      padding: 0.5rem 0.75rem;
+      color: #60a5fa;
+      font-family: monospace;
+      font-size: 0.82rem;
+    }
+
+    .copy-btn {
+      background: rgba(59, 130, 246, 0.2);
+      border: 1px solid rgba(59, 130, 246, 0.4);
+      color: #93c5fd;
+      border-radius: 6px;
+      padding: 0.5rem 0.85rem;
+      font-size: 0.8rem;
+      font-weight: 600;
+      cursor: pointer;
+    }
+
+    .copy-btn:hover {
+      background: rgba(59, 130, 246, 0.35);
+    }
+
+    /* RIGHT SIDE: CUSTOMER MOBILE PORTAL MOCKUP */
+    .mobile-wrapper {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    .device-frame {
+      width: 100%;
+      max-width: 410px;
+      background: #000000;
+      border: 10px solid #2d3033;
+      border-radius: 42px;
+      box-shadow: 0 25px 60px rgba(0,0,0,0.6), 0 0 0 1px rgba(255,255,255,0.1);
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      position: relative;
+    }
+
+    .device-notch {
+      width: 140px;
+      height: 24px;
+      background: #2d3033;
+      margin: 0 auto;
+      border-bottom-left-radius: 14px;
+      border-bottom-right-radius: 14px;
+      position: absolute;
+      top: 0;
+      left: 50%;
+      transform: translateX(-50%);
+      z-index: 50;
+    }
+
+    .device-screen {
+      background: #0f1115;
+      color: #e5e7eb;
+      padding: 2.2rem 1rem 1.2rem;
+      min-height: 640px;
+      display: flex;
+      flex-direction: column;
+      gap: 0.9rem;
+      font-size: 0.85rem;
+    }
+
+    .mobile-header {
+      text-align: center;
+      border-bottom: 1px solid rgba(255,255,255,0.08);
+      padding-bottom: 0.75rem;
+    }
+
+    .mobile-header .shop-name {
+      font-size: 0.75rem;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      color: var(--red);
+      font-weight: 800;
+    }
+
+    .mobile-header h3 {
+      font-size: 1.1rem;
+      font-weight: 800;
+      margin-top: 0.1rem;
+      color: var(--white);
+    }
+
+    .mobile-header .vehicle-info {
+      font-size: 0.78rem;
+      color: var(--muted);
+      margin-top: 0.15rem;
+    }
+
+    /* Job Line Card */
+    .job-card {
+      background: rgba(255, 255, 255, 0.04);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      border-radius: 12px;
+      padding: 0.85rem 0.9rem;
+      transition: all 0.15s ease;
+    }
+
+    .job-card.declined {
+      opacity: 0.5;
+      background: rgba(0,0,0,0.3);
+      border-style: dashed;
+    }
+
+    .job-card-top {
+      display: flex;
+      align-items: flex-start;
+      gap: 0.6rem;
+    }
+
+    .job-checkbox {
+      width: 1.2rem;
+      height: 1.2rem;
+      accent-color: var(--red);
+      cursor: pointer;
+      margin-top: 0.15rem;
+    }
+
+    .job-card-info { flex: 1; }
+
+    .job-title {
+      font-weight: 700;
+      font-size: 0.9rem;
+      color: var(--white);
+      display: flex;
+      justify-content: space-between;
+    }
+
+    .job-price {
+      color: #4ade80;
+      font-weight: 800;
+    }
+
+    .job-badge {
+      display: inline-block;
+      font-size: 0.65rem;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      padding: 2px 6px;
+      border-radius: 4px;
+      margin-top: 0.3rem;
+    }
+
+    .job-badge.required {
+      background: rgba(239, 68, 68, 0.2);
+      color: #fca5a5;
+      border: 1px solid rgba(239, 68, 68, 0.3);
+    }
+
+    .job-badge.recommended {
+      background: rgba(245, 158, 11, 0.2);
+      color: #fde047;
+      border: 1px solid rgba(245, 158, 11, 0.3);
+    }
+
+    .plain-english-box {
+      margin-top: 0.5rem;
+      background: rgba(0,0,0,0.3);
+      border-left: 3px solid var(--red);
+      padding: 0.45rem 0.6rem;
+      border-radius: 0 6px 6px 0;
+      font-size: 0.78rem;
+      color: #d1d5db;
+      line-height: 1.4;
+    }
+
+    /* Math Total Box */
+    .mobile-total-box {
+      background: rgba(0, 0, 0, 0.4);
+      border: 1px solid var(--line);
+      border-radius: 10px;
+      padding: 0.75rem 0.9rem;
+      display: flex;
+      flex-direction: column;
+      gap: 0.35rem;
+    }
+
+    .total-row {
+      display: flex;
+      justify-content: space-between;
+      font-size: 0.8rem;
+      color: var(--muted);
+    }
+
+    .total-row.grand {
+      border-top: 1px solid var(--line);
+      padding-top: 0.4rem;
+      margin-top: 0.2rem;
+      font-size: 1.05rem;
+      font-weight: 800;
+      color: var(--white);
+    }
+
+    .total-row.grand .amount {
+      color: #4ade80;
+    }
+
+    /* Signature Section */
+    .signature-card {
+      background: rgba(255, 255, 255, 0.03);
+      border: 1px dashed var(--line);
+      border-radius: 10px;
+      padding: 0.6rem;
+      text-align: center;
+    }
+
+    .signature-card-head {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 0.75rem;
+      font-weight: 700;
+      color: var(--muted);
+      margin-bottom: 0.3rem;
+    }
+
+    .clear-sig {
+      font-size: 0.7rem;
+      color: var(--red);
+      cursor: pointer;
+      background: none;
+      border: none;
+    }
+
+    canvas#sig-canvas {
+      width: 100%;
+      height: 70px;
+      background: #181b20;
+      border-radius: 6px;
+      cursor: crosshair;
+      touch-action: none;
+    }
+
+    /* Mobile CTA Buttons */
+    .mobile-cta-btn {
+      width: 100%;
+      background: #22c55e;
+      color: #000;
+      border: none;
+      border-radius: 10px;
+      padding: 0.8rem;
+      font-size: 0.92rem;
+      font-weight: 800;
+      cursor: pointer;
+      box-shadow: 0 4px 16px rgba(34, 197, 94, 0.4);
+      transition: all 0.15s ease;
+    }
+
+    .mobile-cta-btn:hover {
+      background: #16a34a;
+      transform: translateY(-1px);
+    }
+
+    .mobile-secondary-ctas {
+      display: flex;
+      gap: 0.4rem;
+    }
+
+    .sub-cta-btn {
+      flex: 1;
+      background: rgba(255,255,255,0.06);
+      border: 1px solid rgba(255,255,255,0.1);
+      border-radius: 8px;
+      padding: 0.5rem 0.4rem;
+      font-size: 0.72rem;
+      font-weight: 600;
+      color: var(--text);
+      cursor: pointer;
+      text-align: center;
+    }
+
+    .sub-cta-btn:hover {
+      background: rgba(255,255,255,0.12);
+    }
+
+    /* Faux File Finder Modal */
+    .modal-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.75);
+      backdrop-filter: blur(6px);
+      z-index: 1000;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.2s ease;
+    }
+
+    .modal-overlay.open {
+      opacity: 1;
+      pointer-events: auto;
+    }
+
+    .modal-window {
+      width: min(620px, 92%);
+      background: #1a1d21;
+      border: 1px solid var(--line);
+      border-radius: 14px;
+      box-shadow: 0 20px 50px rgba(0,0,0,0.6);
+      overflow: hidden;
+    }
+
+    .modal-header {
+      background: #121417;
+      padding: 0.85rem 1.2rem;
+      border-bottom: 1px solid var(--line);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .modal-header h3 {
+      font-size: 0.95rem;
+      font-weight: 700;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .close-modal {
+      background: none;
+      border: none;
+      color: var(--muted);
+      font-size: 1.2rem;
+      cursor: pointer;
+    }
+
+    .modal-body {
+      padding: 1rem;
+      max-height: 380px;
+      overflow-y: auto;
+    }
+
+    .file-list-item {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0.75rem 0.9rem;
+      border: 1px solid rgba(255,255,255,0.06);
+      border-radius: 8px;
+      margin-bottom: 0.5rem;
+      cursor: pointer;
+      transition: all 0.15s ease;
+    }
+
+    .file-list-item:hover {
+      background: rgba(201, 21, 33, 0.12);
+      border-color: var(--red);
+    }
+
+    .file-info-left {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+    }
+
+    .file-icon {
+      font-size: 1.5rem;
+    }
+
+    .file-name {
+      font-weight: 700;
+      font-size: 0.88rem;
+      color: var(--white);
+    }
+
+    .file-sub {
+      font-size: 0.74rem;
+      color: var(--muted);
+    }
+
+    .file-size {
+      font-size: 0.78rem;
+      color: var(--muted);
+      font-family: monospace;
+    }
+
+    /* Toast */
+    .toast {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      background: #22c55e;
+      color: #000;
+      font-weight: 700;
+      font-size: 0.88rem;
+      padding: 0.75rem 1.2rem;
+      border-radius: 8px;
+      box-shadow: 0 6px 20px rgba(0,0,0,0.4);
+      transform: translateY(100px);
+      opacity: 0;
+      transition: all 0.25s ease;
+      z-index: 2000;
+    }
+
+    .toast.show {
+      transform: translateY(0);
+      opacity: 1;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Top Bar with Official AutoRO Logo -->
+  <header class="topbar">
+    <div class="brand">
+      <img src="autoro_logo.png" alt="AutoRO Logo" class="brand-logo-img">
+      <div>
+        <strong>AutoRO Communication Layer</strong>
+        <small>Standalone Web Demo</small>
+      </div>
+    </div>
+
+    <nav class="nav">
+      <div class="nav-tab muted" title="Full version only">
+        Dashboard <span class="lock-badge">🔒 Full Version</span>
+      </div>
+      <div class="nav-tab muted" title="Full version only">
+        Translator <span class="lock-badge">🔒 Full Version</span>
+      </div>
+      <div class="nav-tab active">
+        Estimates (Demo)
+      </div>
+      <div class="nav-tab muted" title="Full version only">
+        Advisor Queue <span class="lock-badge">🔒 Full Version</span>
+      </div>
+      <div class="nav-tab muted" title="Full version only">
+        Operations <span class="lock-badge">🔒 Full Version</span>
+      </div>
+    </nav>
+  </header>
+
+  <!-- Main Shell -->
+  <main class="shell">
+    
+    <div class="page-head">
+      <div>
+        <p class="eyebrow">Interactive Decision Documents</p>
+        <h1>Estimate Conversion & Customer Portal</h1>
+      </div>
+      <div>
+        <span class="status-pill">
+          <span class="dot"></span>
+          AutoRO Qwen Estimator Engine Online
+        </span>
+      </div>
+    </div>
+
+    <!-- Main Grid -->
+    <div class="demo-grid">
+      
+      <!-- LEFT PANEL: ADVISOR WORKBENCH -->
+      <section class="panel">
+        <div class="panel-head">
+          <h2>Build Customer Estimate & Link</h2>
+          <span style="font-size:0.75rem; color:var(--muted)">Mode: Live Interactive Demo</span>
+        </div>
+
+        <!-- Mode Segmented Control -->
+        <div class="segmented-control-container">
+          <span class="label-text">Estimate Mode</span>
+          <div class="segmented-control">
+            <input type="radio" id="mode-pre" name="mode" value="preestimate" checked>
+            <label for="mode-pre">Pre-estimate (Out of shop)</label>
+
+            <input type="radio" id="mode-quote" name="mode" value="quote">
+            <label for="mode-quote">Estimate (In shop)</label>
+
+            <input type="radio" id="mode-prop" name="mode" value="proposal">
+            <label for="mode-prop">Custom Proposal</label>
+          </div>
+        </div>
+
+        <!-- Pre-packaged Draggable Sample PDFs -->
+        <div class="samples-bar">
+          <div class="samples-title">
+            <span>Pre-packaged Sample Estimates (Click or Drag to Load):</span>
+          </div>
+          <div class="samples-grid">
+            <div class="sample-card active" onclick="loadSample(0)" id="sample-card-0" draggable="true" ondragstart="handleDragStart(event, 0)">
+              <div class="sample-card-header">
+                📄 Toyota Camry Quote
+              </div>
+              <div class="sample-card-desc">GORDOS, KRISTIAN (1992)</div>
+              <div class="sample-card-price">$1,900.62</div>
+            </div>
+
+            <div class="sample-card" onclick="loadSample(1)" id="sample-card-1" draggable="true" ondragstart="handleDragStart(event, 1)">
+              <div class="sample-card-header">
+                📄 F-150 Steering Rack
+              </div>
+              <div class="sample-card-desc">Ford F-150 SuperCrew</div>
+              <div class="sample-card-price">$1,485.50</div>
+            </div>
+
+            <div class="sample-card" onclick="loadSample(2)" id="sample-card-2" draggable="true" ondragstart="handleDragStart(event, 2)">
+              <div class="sample-card-header">
+                📄 Tahoe Brake Service
+              </div>
+              <div class="sample-card-desc">Chevy Tahoe Premier</div>
+              <div class="sample-card-price">$940.00</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- File Drop Zone -->
+        <div class="file-drop-zone" id="drop-zone" onclick="openFileModal()" ondragover="handleDragOver(event)" ondragleave="handleDragLeave(event)" ondrop="handleDrop(event)">
+          <svg viewBox="0 0 24 24"><path d="M19.35 10.04C18.67 6.59 15.64 4 12 4 9.11 4 6.6 5.64 5.35 8.04 2.34 8.36 0 10.91 0 14c0 3.31 2.69 6 6 6h13c2.76 0 5-2.24 5-5 0-2.64-2.05-4.78-4.65-4.96zM14 13v4h-4v-4H7l5-5 5 5h-3z"/></svg>
+          <strong id="drop-zone-title">Budget_Quote_Camry_Gordos_Kristian.pdf</strong>
+          <span id="drop-zone-sub">Click to open Faux File Finder or drop a sample PDF here</span>
+          <div>
+            <button class="browse-btn" type="button">📁 Open Faux File Finder</button>
+          </div>
+        </div>
+
+        <!-- Preflight Sanity Check Box -->
+        <div class="sanity-box" id="sanity-box">
+          <div class="sanity-box-head">
+            <span>🩺 Preflight Sanity Check Backstop</span>
+          </div>
+          <ul class="sanity-bullets" id="sanity-bullets">
+            <li>⚠️ <strong>Inspection Scope Warning:</strong> Vehicle not yet inspected. Nearby seals/tube seals may alter final scope.</li>
+            <li>✅ <strong>Labor Verification:</strong> Power steering overhaul & diagnostic labor verified.</li>
+          </ul>
+        </div>
+
+        <!-- Action Button -->
+        <button class="primary-button" id="build-btn" onclick="runConversion()">
+          <span>⚡ Build PDF & Generate Customer Link</span>
+        </button>
+
+        <!-- EXACT EXPORTED PDF DOCUMENT OUTPUT PREVIEW MATCHING PROGRAM PDF OUTPUT -->
+        <div class="preview-container">
+          <div class="panel-head" style="margin-bottom:0.6rem">
+            <h3 style="font-size:0.95rem; font-weight:700">Official Estimator PDF Document Output</h3>
+            <span style="font-size:0.75rem; color:#4ade80" id="preview-status">✅ PDF Compiled</span>
+          </div>
+
+          <!-- Exact Export Paper Layout -->
+          <div class="pdf-export-paper" id="pdf-export-paper">
+            
+            <!-- Left Sidebar Col -->
+            <div class="pdf-sidebar-col">
+              <div>
+                <img src="autoro_logo.png" alt="AutoRO Logo" class="pdf-sidebar-logo">
+                <div class="pdf-shop-contact-info">
+                  <strong>AutoRO</strong>
+                  Built in the Bay - Calgary, Alberta<br>
+                  Powered by Real Shop Experience<br>
+                  Local Processing - Advisor Reviewed<br>
+                  autoroestimate@gmail.com
+                </div>
+
+                <div class="pdf-estimated-total-card">
+                  <div class="lbl">ESTIMATED TOTAL</div>
+                  <div class="val" id="pdf-side-total">$1,900.62</div>
+                  <div style="font-size:0.7rem; color:#6b7280">Including tax</div>
+                </div>
+              </div>
+
+              <div class="pdf-sidebar-footer">
+                Prepared 2026-07-11 • Page 1<br>
+                Prepared from current estimate
+              </div>
+            </div>
+
+            <!-- Right Main Content Col -->
+            <div class="pdf-main-col">
+              <div class="pdf-header-row">
+                <div class="pdf-header-title">Customer-Requested Budget Quote</div>
+                <div class="pdf-badge-uninspected">VEHICLE NOT YET INSPECTED</div>
+              </div>
+
+              <!-- Customer & Vehicle Block -->
+              <div class="pdf-customer-box">
+                <div class="pdf-customer-field">
+                  <label>Customer</label>
+                  <strong id="pdf-cname-text">GORDOS, KRISTIAN</strong>
+                </div>
+                <div class="pdf-customer-field" style="text-align:right">
+                  <label>Vehicle</label>
+                  <strong id="pdf-cvehicle-text">1992 Toyota Camry - LE</strong>
+                  <div style="font-size:0.7rem; color:#64748b;" id="pdf-cvin-text">0 Out 175,775 | VIN ***7649</div>
+                </div>
+              </div>
+
+              <div class="pdf-section-heading">Requested Work</div>
+
+              <!-- Program Job Item Cards Container -->
+              <div id="pdf-pjobs-list">
+                <!-- Rendered via JS -->
+              </div>
+
+              <!-- Work Authorization Ticket & Summary Table -->
+              <div class="pdf-bottom-grid">
+                <div class="pdf-auth-ticket-box">
+                  <div class="pdf-auth-ticket-head">■■ WORK AUTHORIZATION TICKET</div>
+                  <div class="pdf-auth-options" id="pdf-ticket-summary-text">
+                    Estimate #: Budget Quote | Customer: GORDOS, KRISTIAN | Vehicle: 1992 Toyota Camry - LE<br><br>
+                    [ ] Option A: Approve All Recommended Services (Total: <span id="ticket-total-val">$1,900.62</span>)<br>
+                    [ ] Option B: Approve Selected Services (Checked in lists)
+                  </div>
+                  <div class="pdf-auth-btn-row">
+                    <span class="pdf-auth-btn">■ Tap to Text Approval</span>
+                    <span class="pdf-auth-btn">✉■ Tap to Email Approval</span>
+                  </div>
+                </div>
+
+                <div class="pdf-totals-summary-box">
+                  <div class="pdf-tsum-row">
+                    <span>Labour:</span>
+                    <span id="tsum-labour">$991.75</span>
+                  </div>
+                  <div class="pdf-tsum-row">
+                    <span>Parts:</span>
+                    <span id="tsum-parts">$768.55</span>
+                  </div>
+                  <div class="pdf-tsum-row">
+                    <span>Shop supplies / recycle:</span>
+                    <span id="tsum-supplies">$49.59</span>
+                  </div>
+                  <div class="pdf-tsum-row">
+                    <span>GST (8.5%):</span>
+                    <span id="tsum-gst">$90.73</span>
+                  </div>
+                  <div class="pdf-tsum-row grand">
+                    <span>Estimated total:</span>
+                    <span id="tsum-grand">$1,900.62</span>
+                  </div>
+                </div>
+              </div>
+
+            </div>
+
+          </div>
+
+          <!-- Customer Link Generator Card -->
+          <div class="link-share-box">
+            <label>🔗 Customer Shareable Estimate Link (Generated)</label>
+            <div class="link-row">
+              <input class="link-input" id="generated-link-input" readonly value="https://autoro.app/e/c8f92a4b1e9d">
+              <button class="copy-btn" onclick="copyLink()">📋 Copy Link</button>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- RIGHT PANEL: CUSTOMER MOBILE PORTAL MOCKUP -->
+      <section class="mobile-wrapper">
+        <div class="panel-head" style="width:100%; max-width:410px">
+          <h2>Customer Link Mobile View</h2>
+          <span style="font-size:0.75rem; color:var(--muted)">Live Interactive Preview</span>
+        </div>
+
+        <!-- Smartphone Frame -->
+        <div class="device-frame">
+          <div class="device-notch"></div>
+
+          <div class="device-screen">
+            
+            <div class="mobile-header">
+              <div style="display:flex; justify-content:center; align-items:center; gap:0.4rem; margin-bottom:0.25rem;">
+                <img src="autoro_logo.png" alt="AutoRO Logo" style="height:1.8rem; width:auto;">
+                <span class="shop-name" style="font-size:0.85rem">AutoRO Service Portal</span>
+              </div>
+              <h3>Digital Estimate Authorization</h3>
+              <div class="vehicle-info" id="mobile-vehicle-text">1992 Toyota Camry - LE</div>
+            </div>
+
+            <!-- Job Cards Container -->
+            <div id="mobile-jobs-container" style="display:flex; flex-direction:column; gap:0.6rem;">
+              <!-- Rendered via JS -->
+            </div>
+
+            <!-- Dynamic Math Total Box -->
+            <div class="mobile-total-box">
+              <div class="total-row">
+                <span>Selected Subtotal:</span>
+                <span id="math-subtotal">$1,809.89</span>
+              </div>
+              <div class="total-row">
+                <span>Estimated GST / Tax:</span>
+                <span id="math-tax">$90.73</span>
+              </div>
+              <div class="total-row grand">
+                <span>Authorized Total:</span>
+                <span class="amount" id="math-grand">$1,900.62</span>
+              </div>
+            </div>
+
+            <!-- Digital Signature Canvas -->
+            <div class="signature-card">
+              <div class="signature-card-head">
+                <span>✍️ Digital Signature Authorization</span>
+                <button class="clear-sig" onclick="clearSignature()">Clear</button>
+              </div>
+              <canvas id="sig-canvas" width="370" height="70"></canvas>
+            </div>
+
+            <!-- Primary Mobile CTA Button -->
+            <button class="mobile-cta-btn" id="mobile-approve-btn" onclick="submitCustomerApproval()">
+              Approve Selected Repairs (<span id="btn-amount">$1,900.62</span>)
+            </button>
+
+            <!-- Secondary CTAs -->
+            <div class="mobile-secondary-ctas">
+              <button class="sub-cta-btn" onclick="triggerCallback()">📞 Request Advisor Call</button>
+              <button class="sub-cta-btn" onclick="triggerQuestion()">💬 Ask Question</button>
+            </div>
+
+          </div>
+        </div>
+      </section>
+
+    </div>
+  </main>
+
+  <!-- Faux File Finder Modal -->
+  <div class="modal-overlay" id="file-modal">
+    <div class="modal-window">
+      <div class="modal-header">
+        <h3>📁 AutoRO / Recent Shop Estimates /</h3>
+        <button class="close-modal" onclick="closeFileModal()">✕</button>
+      </div>
+      <div class="modal-body">
+        <div class="file-list-item" onclick="selectModalFile(0)">
+          <div class="file-info-left">
+            <span class="file-icon">📄</span>
+            <div>
+              <div class="file-name">Budget_Quote_Camry_Gordos_Kristian.pdf</div>
+              <div class="file-sub">1992 Toyota Camry - LE • $1,900.62</div>
+            </div>
+          </div>
+          <span class="file-size">148 KB</span>
+        </div>
+
+        <div class="file-list-item" onclick="selectModalFile(1)">
+          <div class="file-info-left">
+            <span class="file-icon">📄</span>
+            <div>
+              <div class="file-name">Mitchell_Steering_Rack_and_TieRods.pdf</div>
+              <div class="file-sub">2018 Ford F-150 SuperCrew • $1,485.50</div>
+            </div>
+          </div>
+          <span class="file-size">142 KB</span>
+        </div>
+
+        <div class="file-list-item" onclick="selectModalFile(2)">
+          <div class="file-info-left">
+            <span class="file-icon">📄</span>
+            <div>
+              <div class="file-name">Mitchell_Brake_Caliper_Service.pdf</div>
+              <div class="file-sub">2020 Chevy Tahoe Premier • $940.00</div>
+            </div>
+          </div>
+          <span class="file-size">118 KB</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Toast Notification -->
+  <div class="toast" id="toast-msg">Notification Message</div>
+
+  <!-- Demo Engine JavaScript -->
+  <script>
+    // Embedded Estimate Datasets Matching Program Output
+    const SAMPLE_ESTIMATES = [
+      {
+        id: "Budget Quote",
+        customer: "GORDOS, KRISTIAN",
+        filename: "Budget_Quote_Camry_Gordos_Kristian.pdf",
+        vehicle: "1992 Toyota Camry - LE",
+        vin: "0 Out 175,775 | VIN ***7649",
+        token: "c8f92a4b1e9d",
+        labourSum: 991.75,
+        partsSum: 768.55,
+        suppliesSum: 49.59,
+        gstSum: 90.73,
+        grandTotal: 1900.62,
+        sanityChecks: [
+          "⚠️ <strong>Inspection Scope Warning:</strong> Vehicle not yet inspected. Nearby seals/tube seals may alter final scope.",
+          "✅ <strong>Labor Verification:</strong> Power steering overhaul & diagnostic labor verified."
+        ],
+        jobs: [
+          {
+            num: "01",
+            title: "Power Steering Rack Is Leaking Needs Replacement",
+            raw: "POWER STEERING RACK LEAK INSPECTION",
+            whyMatters: "Addresses the requested leak area and helps prevent further oil loss or contamination.",
+            included: "• Requested service line as supplied to the shop.",
+            inspectionNote: "Nearby seals, tube seals, or related gasket concerns may change the final scope.",
+            badge: "RECOMMENDED SERVICE",
+            badgeClass: "recommended",
+            labourHr: 0,
+            labourVal: 0.00,
+            partsVal: 0.00,
+            total: 0.00,
+            checked: true
+          },
+          {
+            num: "02",
+            title: "Power Steering Pump Leaking Needs Replacement",
+            raw: "POWER STEERING PUMP REPLACEMENT",
+            whyMatters: "Addresses the requested leak area and helps prevent further oil loss or contamination.",
+            included: "• Rack and Pinion - Power - Complete - Remanufactured + 1 more",
+            inspectionNote: "Nearby seals, tube seals, or related gasket concerns may change the final scope.",
+            badge: "REQUIRED REPAIR",
+            badgeClass: "required",
+            labourHr: 0,
+            labourVal: 0.00,
+            partsVal: 550.63,
+            total: 550.63,
+            checked: true
+          },
+          {
+            num: "03",
+            title: "POWER STEERING PUMP - Remove, Install & Overhaul - In-Line4, FWD, Gas - [Includes: Bleed System.]",
+            raw: "R&R PS PUMP & BLEED SYSTEM",
+            whyMatters: "Provides a clear budget for the customer-requested service.",
+            included: "• P/S Pump Repair Kit",
+            inspectionNote: "Inspection will confirm whether the final scope remains the same.",
+            badge: "REQUIRED REPAIR",
+            badgeClass: "required",
+            labourHr: 3.8,
+            labourVal: 626.81,
+            partsVal: 134.89,
+            total: 761.70,
+            checked: true
+          },
+          {
+            num: "04",
+            title: "Diagnose Left Rear Window Is Inoperative",
+            raw: "DIAGNOSE LR WINDOW INOP",
+            whyMatters: "Provides a clear budget for the customer-requested service.",
+            included: "• Requested service line as supplied to the shop.",
+            inspectionNote: "Inspection will confirm whether the final scope remains the same.",
+            badge: "DIAGNOSIS",
+            badgeClass: "recommended",
+            labourHr: 1.0,
+            labourVal: 164.95,
+            partsVal: 0.00,
+            total: 164.95,
+            checked: true
+          },
+          {
+            num: "05",
+            title: "Diagnose For No Reverse",
+            raw: "DIAGNOSE TRANSMISSION NO REVERSE",
+            whyMatters: "Provides a clear budget for the customer-requested service.",
+            included: "• Requested service line as supplied to the shop.",
+            inspectionNote: "Inspection will confirm whether the final scope remains the same.",
+            badge: "DIAGNOSIS",
+            badgeClass: "recommended",
+            labourHr: 0,
+            labourVal: 0.00,
+            partsVal: 0.00,
+            total: 0.00,
+            checked: true
+          },
+          {
+            num: "06",
+            title: "A/C Recharge R134 A",
+            raw: "A/C RECHARGE & LEAK CHECK",
+            whyMatters: "Provides a clear budget for the customer-requested service.",
+            included: "• A/C RECHARGE R134 + 1 more",
+            inspectionNote: "Inspection will confirm whether the final scope remains the same.",
+            badge: "RECOMMENDED SERVICE",
+            badgeClass: "recommended",
+            labourHr: 1.5,
+            labourVal: 199.99,
+            partsVal: 83.03,
+            total: 283.02,
+            checked: true
+          }
+        ]
+      },
+      {
+        id: "EST-2026-8841",
+        customer: "JOHNSON, MICHAEL",
+        filename: "Mitchell_Steering_Rack_and_TieRods.pdf",
+        vehicle: "2018 Ford F-150 SuperCrew",
+        vin: "VIN ***8841",
+        token: "b47e112d8a0f",
+        labourSum: 560.50,
+        partsSum: 785.00,
+        suppliesSum: 35.00,
+        gstSum: 105.00,
+        grandTotal: 1485.50,
+        sanityChecks: [
+          "⚠️ <strong>Misplaced Part Auto-Realignment:</strong> Tie-rod parts detected under Steering Pump line item. Automatically moved to Steering Rack line.",
+          "✅ <strong>Labor Check:</strong> All 3 labor items verified above 0.0 hrs."
+        ],
+        jobs: [
+          {
+            num: "01",
+            title: "Steering Rack & Pinion Assembly Replacement",
+            raw: "R&R STRG RACK & OUTER TIE RODS",
+            whyMatters: "Replaces leaking steering rack assembly and worn outer tie rods to eliminate heavy steering play and restore precise vehicle control.",
+            included: "• Remanufactured Steering Rack & Outer Tie Rod Ends",
+            inspectionNote: "Alignment required following steering component installation.",
+            badge: "REQUIRED SAFETY SERVICE",
+            badgeClass: "required",
+            labourHr: 3.5,
+            labourVal: 420.00,
+            partsVal: 785.00,
+            total: 1205.00,
+            checked: true
+          },
+          {
+            num: "02",
+            title: "4-Wheel Computerized Alignment",
+            raw: "4-WHEEL COMPUTER ALIGNMENT",
+            whyMatters: "Calibrates front and rear wheel alignment specs to ensure straight tracking and prevent uneven tire wear.",
+            included: "• Computer Alignment Calibration",
+            inspectionNote: "Verifies steering angle sensors.",
+            badge: "REQUIRED SERVICE",
+            badgeClass: "required",
+            labourHr: 1.0,
+            labourVal: 140.50,
+            partsVal: 0.00,
+            total: 140.50,
+            checked: true
+          },
+          {
+            num: "03",
+            title: "Power Steering System Synthetic Fluid Flush",
+            raw: "PS SYS FLUSH & REFILL",
+            whyMatters: "Flushes metallic debris and contaminated fluid to protect the new steering rack.",
+            included: "• Synthetic Power Steering Fluid",
+            inspectionNote: "Recommended preventative service.",
+            badge: "RECOMMENDED SERVICE",
+            badgeClass: "recommended",
+            labourHr: 0.8,
+            labourVal: 95.55,
+            partsVal: 44.45,
+            total: 140.00,
+            checked: true
+          }
+        ]
+      },
+      {
+        id: "EST-2026-9104",
+        customer: "JENKINS, SARAH",
+        filename: "Mitchell_Brake_Caliper_Service.pdf",
+        vehicle: "2020 Chevy Tahoe Premier",
+        vin: "VIN ***9104",
+        token: "f990a3c2e14b",
+        labourSum: 380.00,
+        partsSum: 560.00,
+        suppliesSum: 25.00,
+        gstSum: 65.00,
+        grandTotal: 940.00,
+        sanityChecks: [
+          "⚠️ <strong>Labor Hour Sanity Check:</strong> Front brake pads listed with 0.0 labor hours. Adjusted to standard 1.2 hrs.",
+          "✅ <strong>Hydraulic Fluid Verification:</strong> Caliper bleed labor included."
+        ],
+        jobs: [
+          {
+            num: "01",
+            title: "Front Brake Rotors & Premium Ceramic Pads",
+            raw: "R&R FRT BRAKE PADS & ROTORS",
+            whyMatters: "Replaces heat-warped front brake rotors and worn brake pads to stop pedal pulsation and restore smooth stopping power.",
+            included: "• Heavy Duty Rotors & Ceramic Pads",
+            inspectionNote: "Slide pins lubricated.",
+            badge: "REQUIRED SAFETY SERVICE",
+            badgeClass: "required",
+            labourHr: 1.5,
+            labourVal: 220.00,
+            partsVal: 340.00,
+            total: 560.00,
+            checked: true
+          },
+          {
+            num: "02",
+            title: "Front LH Heavy Duty Brake Caliper",
+            raw: "R&R FRT LH CALIPER & BLEED",
+            whyMatters: "Replaces sticking front-left brake caliper that was causing uneven pad wear and brake drag.",
+            included: "• Remanufactured Brake Caliper",
+            inspectionNote: "System bled.",
+            badge: "REQUIRED SERVICE",
+            badgeClass: "required",
+            labourHr: 0.8,
+            labourVal: 110.00,
+            partsVal: 195.00,
+            total: 305.00,
+            checked: true
+          },
+          {
+            num: "03",
+            title: "Hydraulic Brake Fluid Flush",
+            raw: "HYDRAULIC BRAKE FLUID FLUSH",
+            whyMatters: "Flushes moisture-laden brake fluid with fresh DOT 4 fluid to maintain responsive pedal pressure.",
+            included: "• DOT 4 Brake Fluid",
+            inspectionNote: "Prevents internal caliper corrosion.",
+            badge: "RECOMMENDED SERVICE",
+            badgeClass: "recommended",
+            labourHr: 0.5,
+            labourVal: 50.00,
+            partsVal: 25.00,
+            total: 75.00,
+            checked: true
+          }
+        ]
+      }
+    ];
+
+    let currentSampleIndex = 0;
+    let currentEstimate = JSON.parse(JSON.stringify(SAMPLE_ESTIMATES[0]));
+
+    // Initialize Page
+    document.addEventListener("DOMContentLoaded", () => {
+      renderEstimateView();
+      initSignatureCanvas();
+    });
+
+    // Safe helper to set innerText
+    function setElText(id, text) {
+      const el = document.getElementById(id);
+      if (el) el.innerText = text;
+    }
+
+    function setElHtml(id, html) {
+      const el = document.getElementById(id);
+      if (el) el.innerHTML = html;
+    }
+
+    // Load Sample Estimate
+    function loadSample(index) {
+      currentSampleIndex = index;
+      currentEstimate = JSON.parse(JSON.stringify(SAMPLE_ESTIMATES[index]));
+
+      // Update sample cards UI
+      for (let i = 0; i < 3; i++) {
+        const card = document.getElementById(`sample-card-${i}`);
+        if (card) {
+          if (i === index) card.classList.add("active");
+          else card.classList.remove("active");
+        }
+      }
+
+      // Update dropzone title
+      setElText("drop-zone-title", currentEstimate.filename);
+
+      renderEstimateView();
+      showToast(`Loaded ${currentEstimate.filename}`);
+    }
+
+    // Render Estimate Data across Workbench PDF & Mobile View
+    function renderEstimateView() {
+      // 1. Sanity Checks Box
+      const sanityHtml = currentEstimate.sanityChecks
+        .map(check => `<li>${check}</li>`)
+        .join("");
+      setElHtml("sanity-bullets", sanityHtml);
+
+      // 2. EXACT PROGRAM EXPORTED PDF DOCUMENT PREVIEW
+      setElText("pdf-side-total", `$${currentEstimate.grandTotal.toFixed(2)}`);
+      setElText("pdf-cname-text", currentEstimate.customer);
+      setElText("pdf-cvehicle-text", currentEstimate.vehicle);
+      setElText("pdf-cvin-text", currentEstimate.vin);
+
+      // Program Job Cards List Rendering
+      const pjobsContainer = document.getElementById("pdf-pjobs-list");
+      if (pjobsContainer) {
+        pjobsContainer.innerHTML = currentEstimate.jobs.map(job => `
+          <div class="pdf-program-job-card">
+            <div class="pdf-pjob-head">
+              <div>
+                <span class="num">[ ] ${job.num}</span>
+                <span>${job.title}</span>
+              </div>
+              <div class="price">$${job.total.toFixed(2)}</div>
+            </div>
+            <div class="pdf-pjob-body">
+              <div class="pdf-pjob-meta-row">
+                <div class="pdf-pjob-meta-col">
+                  <div class="pdf-pjob-meta-lbl">WHY IT MATTERS</div>
+                  <div class="pdf-pjob-meta-val">${job.whyMatters}</div>
+                </div>
+                <div class="pdf-pjob-meta-col">
+                  <div class="pdf-pjob-meta-lbl">INCLUDED IN THIS BUDGET</div>
+                  <div class="pdf-pjob-meta-val">${job.included}</div>
+                </div>
+              </div>
+              ${job.inspectionNote ? `<div class="pdf-pjob-note">Inspection note: ${job.inspectionNote}</div>` : ''}
+            </div>
+            <div class="pdf-pjob-foot-strip">
+              <span>Labour &nbsp; ${job.labourHr} hr &nbsp; $${job.labourVal.toFixed(2)}</span>
+              <span>Parts &nbsp; $${job.partsVal.toFixed(2)}</span>
+            </div>
+          </div>
+        `).join("");
+      }
+
+      // Ticket & Summary Totals
+      setElText("ticket-total-val", `$${currentEstimate.grandTotal.toFixed(2)}`);
+      setElText("tsum-labour", `$${currentEstimate.labourSum.toFixed(2)}`);
+      setElText("tsum-parts", `$${currentEstimate.partsSum.toFixed(2)}`);
+      setElText("tsum-supplies", `$${currentEstimate.suppliesSum.toFixed(2)}`);
+      setElText("tsum-gst", `$${currentEstimate.gstSum.toFixed(2)}`);
+      setElText("tsum-grand", `$${currentEstimate.grandTotal.toFixed(2)}`);
+
+      // 3. Link Box
+      const linkInput = document.getElementById("generated-link-input");
+      if (linkInput) linkInput.value = `https://autoro.app/e/${currentEstimate.token}`;
+
+      // 4. Mobile Customer View Header
+      setElText("mobile-vehicle-text", currentEstimate.vehicle);
+
+      // 5. Mobile Job Cards
+      const jobsContainer = document.getElementById("mobile-jobs-container");
+      if (jobsContainer) {
+        jobsContainer.innerHTML = currentEstimate.jobs.map((job, idx) => `
+          <div class="job-card ${job.checked ? '' : 'declined'}" id="job-card-elem-${idx}">
+            <div class="job-card-top">
+              <input type="checkbox" class="job-checkbox" id="chk-${idx}" ${job.checked ? 'checked' : ''} onchange="toggleJob(${idx})">
+              <div class="job-card-info">
+                <div class="job-title">
+                  <span>${job.num} ${job.title}</span>
+                  <span class="job-price">$${job.total.toFixed(2)}</span>
+                </div>
+                <span class="job-badge ${job.badgeClass}">${job.badge}</span>
+                <div class="plain-english-box">
+                  ${job.whyMatters}
+                </div>
+              </div>
+            </div>
+          </div>
+        `).join("");
+      }
+
+      recalculateTotals();
+    }
+
+    // Toggle Line Item Selection
+    function toggleJob(index) {
+      currentEstimate.jobs[index].checked = !currentEstimate.jobs[index].checked;
+      const cardElem = document.getElementById(`job-card-elem-${index}`);
+      if (cardElem) {
+        if (currentEstimate.jobs[index].checked) {
+          cardElem.classList.remove("declined");
+        } else {
+          cardElem.classList.add("declined");
+        }
+      }
+      recalculateTotals();
+    }
+
+    // Recalculate Totals
+    function recalculateTotals() {
+      const subtotal = currentEstimate.jobs
+        .filter(j => j.checked)
+        .reduce((sum, j) => sum + j.total, 0);
+
+      const gst = subtotal * 0.05; // 5% GST
+      const grandTotal = subtotal + gst + (subtotal > 0 ? currentEstimate.suppliesSum : 0);
+
+      setElText("math-subtotal", `$${subtotal.toFixed(2)}`);
+      setElText("math-tax", `$${gst.toFixed(2)}`);
+      setElText("math-grand", `$${grandTotal.toFixed(2)}`);
+      setElText("btn-amount", `$${grandTotal.toFixed(2)}`);
+    }
+
+    // Run Conversion Sequence
+    function runConversion() {
+      const btn = document.getElementById("build-btn");
+      if (btn) {
+        btn.disabled = true;
+        btn.innerHTML = "<span>⌛ Processing AI Translation & Sanity Checks...</span>";
+
+        setTimeout(() => {
+          btn.disabled = false;
+          btn.innerHTML = "<span>⚡ Build PDF & Generate Customer Link</span>";
+          renderEstimateView();
+          showToast("✅ PDF Built & Customer Link Published!");
+        }, 900);
+      }
+    }
+
+    // Copy Link Toast
+    function copyLink() {
+      const linkInput = document.getElementById("generated-link-input");
+      if (linkInput) {
+        navigator.clipboard.writeText(linkInput.value).catch(() => {});
+      }
+      showToast("📋 Customer estimate link copied to clipboard!");
+    }
+
+    // Toast Notification System
+    function showToast(msg) {
+      const toast = document.getElementById("toast-msg");
+      if (toast) {
+        toast.innerText = msg;
+        toast.classList.add("show");
+        setTimeout(() => {
+          toast.classList.remove("show");
+        }, 3000);
+      }
+    }
+
+    // Faux File Finder Modal
+    function openFileModal() {
+      const modal = document.getElementById("file-modal");
+      if (modal) modal.classList.add("open");
+    }
+
+    function closeFileModal() {
+      const modal = document.getElementById("file-modal");
+      if (modal) modal.classList.remove("open");
+    }
+
+    function selectModalFile(index) {
+      closeFileModal();
+      loadSample(index);
+    }
+
+    // Drag and Drop Handlers
+    function handleDragOver(e) {
+      e.preventDefault();
+      const dropZone = document.getElementById("drop-zone");
+      if (dropZone) dropZone.classList.add("dragover");
+    }
+
+    function handleDragLeave(e) {
+      const dropZone = document.getElementById("drop-zone");
+      if (dropZone) dropZone.classList.remove("dragover");
+    }
+
+    function handleDrop(e) {
+      e.preventDefault();
+      const dropZone = document.getElementById("drop-zone");
+      if (dropZone) dropZone.classList.remove("dragover");
+      const sampleIdx = e.dataTransfer.getData("sampleIndex");
+      if (sampleIdx !== undefined && sampleIdx !== "") {
+        loadSample(parseInt(sampleIdx));
+      } else {
+        loadSample(0);
+      }
+    }
+
+    function handleDragStart(e, index) {
+      e.dataTransfer.setData("sampleIndex", index);
+    }
+
+    // HTML5 Signature Canvas
+    let canvas, ctx, isDrawing = false;
+
+    function initSignatureCanvas() {
+      canvas = document.getElementById("sig-canvas");
+      if (!canvas) return;
+      ctx = canvas.getContext("2d");
+      ctx.strokeStyle = "#4ade80";
+      ctx.lineWidth = 2.5;
+
+      const getPos = (e) => {
+        const rect = canvas.getBoundingClientRect();
+        return {
+          x: (e.clientX || (e.touches && e.touches[0].clientX)) - rect.left,
+          y: (e.clientY || (e.touches && e.touches[0].clientY)) - rect.top
+        };
+      };
+
+      const startDraw = (e) => { isDrawing = true; const pos = getPos(e); ctx.beginPath(); ctx.moveTo(pos.x, pos.y); };
+      const draw = (e) => { if (!isDrawing) return; const pos = getPos(e); ctx.lineTo(pos.x, pos.y); ctx.stroke(); };
+      const stopDraw = () => { isDrawing = false; };
+
+      canvas.addEventListener("mousedown", startDraw);
+      canvas.addEventListener("mousemove", draw);
+      canvas.addEventListener("mouseup", stopDraw);
+      canvas.addEventListener("mouseleave", stopDraw);
+
+      canvas.addEventListener("touchstart", startDraw);
+      canvas.addEventListener("touchmove", draw);
+      canvas.addEventListener("touchend", stopDraw);
+    }
+
+    function clearSignature() {
+      if (ctx && canvas) {
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+      }
+    }
+
+    // Customer CTAs
+    function submitCustomerApproval() {
+      const grandTotal = document.getElementById("math-grand").innerText;
+      showToast(`🎉 Authorization Submitted! Approved for ${grandTotal}`);
+    }
+
+    function triggerCallback() {
+      showToast("📞 Callback Request Sent! Advisor will phone customer shortly.");
+    }
+
+    function triggerQuestion() {
+      showToast("💬 Question Sent to Advisor Queue!");
+    }
+  </script>
+</body>
+</html>

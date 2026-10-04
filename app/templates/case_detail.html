@@ -1,0 +1,34 @@
+{% extends "base.html" %}
+{% block title %}Case {{ case_id }} | AutoRO Communication Layer{% endblock %}
+{% block page_id %}case-detail{% endblock %}
+
+{% block content %}
+<section class="page-head" data-case-id="{{ case_id }}">
+  <div>
+    <p class="eyebrow">Saved translation</p>
+    <h1>Case #{{ case_id }}</h1>
+  </div>
+  <a class="link-button" href="/cases">Back to cases</a>
+</section>
+
+<section class="case-detail-grid">
+  <article class="panel stack">
+    <h2>Original shorthand</h2>
+    <div id="case-summary" class="summary-list"></div>
+    <label>Internal notes<textarea id="case-notes" rows="6"></textarea></label>
+    <button id="save-case-notes" class="secondary-button" type="button">Save Internal Notes</button>
+  </article>
+
+  <section class="stack">
+    <article class="panel">
+      <h2>Customer-facing explanation</h2>
+      <label>Model translation<textarea id="case-model-translation" rows="7" readonly></textarea></label>
+      <label>Corrected customer explanation<textarea id="case-corrected-translation" rows="7"></textarea></label>
+      <div class="button-row">
+        <button id="approve-case-translation" class="primary-button" type="button">Approve as Training Example</button>
+        <button id="logged-only-case" class="secondary-button" type="button">Keep Logged Only</button>
+      </div>
+    </article>
+  </section>
+</section>
+{% endblock %}

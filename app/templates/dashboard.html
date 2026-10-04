@@ -1,0 +1,75 @@
+{% extends "base.html" %}
+{% block title %}Dashboard | AutoRO Communication Layer{% endblock %}
+{% block page_id %}dashboard{% endblock %}
+
+{% block content %}
+<section id="launch-splash" class="launch-splash" aria-label="AutoRO is starting" aria-live="polite" hidden>
+  <div class="launch-splash-glow" aria-hidden="true"></div>
+  <div class="launch-splash-content">
+    <img src="/static/img/autoro-logo.png" alt="AutoRO">
+    <p>AutoRO 1.3 Beta</p>
+    <h1>Built in the Bay.<br>Ready for the Shop.</h1>
+    <small>Local Processing &bull; Advisor Reviewed</small>
+    <button type="button" class="launch-splash-skip">Continue</button>
+  </div>
+</section>
+
+<section class="page-head">
+  <div>
+    <p class="eyebrow">Technician &bull; Advisor &bull; Customer</p>
+    <h1>AutoRO Communication Layer</h1>
+    <p class="hero-purpose">Turning shop findings into customer-ready explanations.</p>
+  </div>
+</section>
+
+<section class="launch-hero" aria-label="AutoRO launch actions">
+  <a class="launch-tile launch-tech" href="/translate">
+    <span>Tech story</span>
+    <strong>Translator</strong>
+    <small>Turn rough technician notes into customer-ready explanations.</small>
+    <em id="status-translator">Checking</em>
+  </a>
+
+  <a class="launch-tile launch-estimate" href="/estimate-conversion">
+    <span>Customer document</span>
+    <strong>Estimates</strong>
+    <small>Build pre-estimates, requested quotes, and proposal PDFs.</small>
+    <em id="status-estimates">Checking</em>
+  </a>
+
+  <a class="launch-tile launch-advisor" href="/advisor-queue">
+    <span>Advisor wording</span>
+    <strong>Advisor Queue</strong>
+    <small>Queue up lines and automatically draft customer-facing wording in the background.</small>
+    <em id="status-advisor">Checking</em>
+  </a>
+
+  <a class="launch-tile launch-bg" href="/bg">
+    <span>Coverage card</span>
+    <strong>BG Coverage</strong>
+    <small>Confirm coverage, interval, requirements, and roadside value.</small>
+    <em id="status-bg">Ready</em>
+  </a>
+
+  <a class="launch-tile launch-logs" href="/cases">
+    <span>Recall</span>
+    <strong>Logged Translations</strong>
+    <small><b id="stat-cases">0</b> logged stories available for review.</small>
+    <em id="status-logs">Ready</em>
+  </a>
+
+  <a class="launch-tile launch-management" href="/management">
+    <span>Advisor view</span>
+    <strong>Management</strong>
+    <small>Review report digest, usage, and shop activity.</small>
+    <em id="status-management">Ready</em>
+  </a>
+
+  <a class="launch-tile launch-operations" href="/manage">
+    <span>Owner tools</span>
+    <strong>Operations</strong>
+    <small><b id="stat-saved">0</b> approved training examples.</small>
+    <em id="status-operations">Checking</em>
+  </a>
+</section>
+{% endblock %}

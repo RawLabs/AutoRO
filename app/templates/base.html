@@ -1,0 +1,51 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>{% block title %}AutoRO Communication Layer{% endblock %}</title>
+    <link rel="stylesheet" href="/static/css/app.css?v=20260815-communication-layer-1">
+  </head>
+  <body data-page="{% block page_id %}dashboard{% endblock %}">
+    <header class="topbar">
+      <a class="brand" href="/">
+        <span class="brand-mark">
+          <img src="/static/img/autoro-logo.png" alt="AutoRO logo">
+        </span>
+        <span>
+          <strong>AutoRO Communication Layer</strong>
+          <small>Customer communication workbench</small>
+        </span>
+      </a>
+      <nav class="nav">
+        <a href="/">Dashboard</a>
+        <a href="/translate">Translator</a>
+        <a href="/advisor-queue">Advisor Queue</a>
+        <a href="/estimate-conversion">Estimates</a>
+        <a href="/management">Management</a>
+        <a href="/manage">Operations</a>
+        <a href="/bg">BG Coverage</a>
+        <a href="/cases">Logged Translations</a>
+      </nav>
+    </header>
+
+    <main class="shell">
+      {% block content %}{% endblock %}
+    </main>
+
+    <footer class="diagnostic-footer">
+      <small id="release-pill" class="muted">AutoRO UNVERIFIED</small>
+    </footer>
+
+    <div id="toast" class="toast" role="status" aria-live="polite"></div>
+    <script src="/static/js/api.js"></script>
+    <script src="/static/js/app.js?v=20260815-dashboard-status-1"></script>
+    <script src="/static/js/translator.js"></script>
+    <script src="/static/js/advisor_queue.js"></script>
+    <script src="/static/js/estimates.js?v=20260815-estimate-naming-1"></script>
+    <script src="/static/js/management.js"></script>
+    <script src="/static/js/manager.js"></script>
+    <script src="/static/js/bg.js"></script>
+    <script src="/static/js/cases.js"></script>
+  </body>
+</html>

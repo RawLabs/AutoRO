@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+{% block title %}Cases | AutoRO Communication Layer{% endblock %}
+{% block page_id %}cases{% endblock %}
+
+{% block content %}
+<section class="page-head">
+  <div>
+    <p class="eyebrow">Training dataset retention</p>
+    <h1>Logged Translations</h1>
+  </div>
+  <a class="primary-link" href="/translate">New Translation</a>
+</section>
+
+<section class="panel stack">
+  <form id="case-search-form" class="search-row">
+    <input id="case-search" type="search" placeholder="Search category, technician note, explanation, or internal note">
+    <button class="secondary-button" type="submit">Search</button>
+  </form>
+  <div id="case-results" class="case-list wide"></div>
+</section>
+{% endblock %}

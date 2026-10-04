@@ -1,0 +1,91 @@
+{% extends "base.html" %}
+{% block title %}Advisor Queue | AutoRO Communication Layer{% endblock %}
+{% block page_id %}advisor-queue{% endblock %}
+
+{% block content %}
+<section class="page-head">
+  <div>
+    <p class="eyebrow">Advisor customer wording</p>
+    <h1>Advisor Translation Queue</h1>
+  </div>
+</section>
+
+<section class="advisor-queue-grid">
+  <!-- Left Side: Intake Guide / Concern Translator (Workflow Start) -->
+  <article class="panel stack advisor-intake-panel">
+    <div class="panel-head">
+      <h2>Symptom Intake Guide</h2>
+      <em class="eyebrow">AutoRO Assist</em>
+    </div>
+    
+    <form id="intake-guide-form" class="stack">
+      <label>Raw Symptom / Concern
+        <textarea id="intake-raw-input" name="raw_text" rows="4" placeholder="Enter customer's raw concern (e.g., 'noise when braking', 'shakes at 60mph')"></textarea>
+      </label>
+      <div class="button-row">
+        <button id="intake-check-button" class="primary-button" type="submit">Check & Format</button>
+      </div>
+    </form>
+
+    <!-- Interactive Guide Area -->
+    <div id="intake-guide-feedback" class="intake-guide-card stack" hidden>
+      <hr>
+      <div class="intake-guide-header">
+        <p class="eyebrow" style="color: var(--focus);">Clarification Needed</p>
+        <h3 id="intake-guide-title">Noise Concern Detected</h3>
+        <p id="intake-guide-message" class="muted font-small">Please clarify type of noise and when it occurs.</p>
+      </div>
+      
+      <div id="intake-chips-container" class="missing-info-options">
+        <!-- Suggestion chips will be dynamically inserted here -->
+      </div>
+
+      <div class="missing-info-custom-row">
+        <input id="intake-custom-input" type="text" placeholder="Type detail, then Enter or click Add">
+        <button id="intake-custom-add" class="secondary-button compact-button" type="button">Add</button>
+      </div>
+
+      <div class="button-row">
+        <button id="intake-translate-anyway" class="secondary-button compact-button" type="button">Format Anyway</button>
+        <button id="intake-reset" class="secondary-button compact-button" type="button">Reset</button>
+      </div>
+    </div>
+
+    <!-- Intake Translation Result Area -->
+    <div id="intake-result-panel" class="stack" hidden>
+      <hr>
+      <label>Polished Repair Order Wording
+        <textarea id="intake-result-text" rows="4"></textarea>
+      </label>
+      <div class="button-row">
+        <button id="intake-queue-button" class="primary-button" type="button">Send to Queue</button>
+      </div>
+    </div>
+  </article>
+
+  <!-- Right Side: Standard Advisor Queue & Queued Items -->
+  <section class="stack advisor-queue-main-column">
+    <article class="panel stack advisor-entry-panel">
+      <div class="panel-head">
+        <h2>Add Quick Line</h2>
+      </div>
+      <form id="advisor-queue-form" class="stack">
+        <label>Advisor line
+          <textarea id="advisor-queue-input" name="raw_text" rows="3" placeholder="Paste a pre-formatted RO/customer line here to queue directly"></textarea>
+        </label>
+        <div class="button-row">
+          <button id="advisor-add-button" class="primary-button" type="submit">Add to Queue</button>
+        </div>
+      </form>
+    </article>
+
+    <article class="panel stack">
+      <div class="panel-head">
+        <h2>Queued Lines</h2>
+        <button id="advisor-clear-button" class="secondary-button compact-button" type="button">Clear Lines</button>
+      </div>
+      <div id="advisor-queue-list" class="advisor-queue-list"></div>
+    </article>
+  </section>
+</section>
+{% endblock %}

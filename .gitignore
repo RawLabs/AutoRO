@@ -1,0 +1,52 @@
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Virtual environments
+.venv/
+venv/
+ENV/
+env/
+
+# Application specific
+.env
+.env.*
+!.env.example
+Models/
+logs/
+data/
+Database/
+.autoro-linux.pid
+System Volume Information/
+app/static/inshop_temp/
+reports/
+Tools/
+Llamafile/
+$RECYCLE.BIN/
+.Trash-1000/
+runtime/
+estimate_conversion/workspace/uploads/
+estimate_conversion/workspace/autoro_outbox/
+estimate_conversion/workspace/import_records/
+
+# Generated customer/shop artifacts must never enter a source distribution.
+*.pdf
+*.sqlite-journal
+*.sqlite-wal
+*.sqlite-shm
+
+# Local agent state and generated audit artifacts
+.agents/
+.aws/
+.codex/
+.said/
+.selfdiag/
+security_scans/
+workspace/
+*.db
+*.sqlite
+*.sqlite3
+
+# Generated shop deployment copies
+shop_template/AutoRO_shop_*/

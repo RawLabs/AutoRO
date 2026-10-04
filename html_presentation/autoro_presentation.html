@@ -1,0 +1,530 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>AutoRO / OSCOO USSD — How It Works</title>
+<style>
+  :root {
+    --bg: #0b0c10;
+    --panel: #111318;
+    --ink: #e8e8ec;
+    --dim: #a0a6b1;
+    --accent: #4f46e5;
+    --good: #22c55e;
+    --warn: #f59e0b;
+    --bad: #ef4444;
+    --mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", monospace;
+  }
+  * { box-sizing: border-box; }
+  html, body {
+    margin: 0; padding: 0;
+    background: radial-gradient(1200px 800px at 10% -10%, #1f2333, transparent),
+                radial-gradient(900px 600px at 110% 10%, #1a1f2e, transparent),
+                var(--bg);
+    color: var(--ink);
+    font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Ubuntu, Cantarell, Noto Sans, sans-serif;
+    line-height: 1.55;
+  }
+  .wrap { max-width: 1080px; margin: 0 auto; padding: 48px 28px; }
+  .deck { display: flex; flex-direction: column; gap: 28px; }
+
+  .slide {
+    background: linear-gradient(180deg, rgba(255,255,255,0.04), rgba(255,255,255,0.015));
+    border: 1px solid rgba(255,255,255,0.08);
+    border-radius: 22px;
+    padding: 34px 36px;
+    box-shadow: 0 20px 60px rgba(0,0,0,0.35), inset 0 1px 0 rgba(255,255,255,0.06);
+    page-break-after: always;
+    break-after: page;
+  }
+  @media print {
+    .slide { break-after: always; box-shadow: none; border: 1px solid #ddd; background: #fff; color: #000; }
+    body { color: #000; background: #fff; }
+  }
+
+  .slide h1 { font-size: 34px; margin: 0 0 10px; letter-spacing: -0.02em; }
+  .slide h2 { font-size: 26px; margin: 0 0 10px; }
+  .slide h3 { font-size: 20px; margin: 14px 0 8px; color: #c7cdd8; }
+  .slide p, .slide li { color: var(--ink); }
+  .slide .subtitle { color: var(--dim); font-size: 17px; margin-top: 6px; }
+  .slide .meta { color: var(--dim); font-size: 13px; margin-top: 18px; }
+
+  .row { display: grid; grid-template-columns: 1fr 1fr; gap: 18px; }
+  @media (max-width: 820px) { .row { grid-template-columns: 1fr; } }
+
+  .card { background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.08); border-radius: 16px; padding: 18px 20px; }
+  .card h4 { margin: 0 0 8px; font-size: 15px; color: #b7bcc7; text-transform: uppercase; letter-spacing: 0.12em; }
+  .pill { display: inline-block; padding: 4px 10px; border-radius: 999px; font-size: 12px; font-weight: 600; letter-spacing: 0.04em; }
+  .pill.blue { background: rgba(79,70,229,0.25); color: #c7c1ff; border: 1px solid rgba(79,70,229,0.4); }
+  .pill.green { background: rgba(34,197,94,0.2); color: #b3f3c6; border: 1px solid rgba(34,197,94,0.35); }
+  .pill.amber { background: rgba(245,158,11,0.2); color: #ffe2a0; border: 1px solid rgba(245,158,11,0.35); }
+  .pill.red { background: rgba(239,68,68,0.2); color: #ffb3b3; border: 1px solid rgba(239,68,68,0.35); }
+
+  .flow { display:flex; align-items:center; gap:10px; flex-wrap:wrap; }
+  .flow .node { background:#14161e; border:1px solid rgba(255,255,255,0.12); border-radius:14px; padding:12px 14px; }
+  .flow .arrow { color: var(--dim); font-size: 18px; }
+
+  code, pre {
+    background: #101219; border: 1px solid rgba(255,255,255,0.08);
+    color: #d8dee8; padding: 14px 16px; border-radius: 14px;
+    font-family: var(--mono); font-size: 13px; line-height: 1.6;
+    overflow: auto;
+  }
+  ul { padding-left: 20px; }
+  li { margin: 8px 0; }
+  .tag { font-family: var(--mono); color: #ffd199; background: #1f1a12; border:1px solid rgba(255,209,153,0.25); padding:2px 8px; border-radius:8px; font-size: 12px; }
+  .tag.green { color:#b3f3c6; background:#12201a; border-color: rgba(34,197,94,0.3); }
+  .tag.blue { color:#c7c1ff; background:#14121f; border-color: rgba(79,70,229,0.3); }
+  .tag.red { color:#ffb3b3; background:#1f1214; border-color: rgba(239,68,68,0.3); }
+  .two { display:grid; grid-template-columns: 1fr; gap:14px; }
+  @media (min-width: 860px) { .two { grid-template-columns: 1fr 1fr; } }
+</style>
+</head>
+<body>
+<div class="wrap">
+<div class="deck">
+
+  <!-- Slide 1 -->
+  <section class="slide">
+    <div style="display:flex; justify-content:space-between; align-items:end; gap:12px; flex-wrap:wrap;">
+      <div>
+        <h1>AutoRO / OSCOO USSD</h1>
+        <p class="subtitle">High-level operation, internal engines, and why each part exists — written for grade 12.</p>
+      </div>
+      <div style="text-align:right;">
+        <div class="pill blue">Local-first</div>
+        <div class="pill green">Loopback only</div>
+        <div class="pill amber">No cloud services</div>
+      </div>
+    </div>
+    <div class="row" style="margin-top:18px;">
+      <div class="card">
+        <h4>What this is</h4>
+        <p>A shop-level web tool that helps a repair shop write clearer customer notes, convert imported repair estimates into quotes, and protect monthly operations data — running entirely from a USB drive without online accounts.</p>
+      </div>
+      <div class="card">
+        <h4>What this is not</h4>
+        <p>It does not replace Mitchell, diagnose cars, send estimates to customers over the internet, or connect to the shop’s accounting system unless later redesigned. That boundary is intentional.</p>
+      </div>
+    </div>
+    <p class="meta">Source tree: <span class="tag blue">app/</span> <span class="tag green">estimate_conversion/</span> <span class="tag">Llamafile/</span> <span class="tag">Models/</span> <span class="tag">runtime/</span></p>
+  </section>
+
+  <!-- Slide 2 -->
+  <section class="slide">
+    <h2>1. The Big Picture</h2>
+    <p style="color: var(--dim); max-width: 860px;">There are a few parts, but the main loop is simple: a user does something in a browser page, the server translates that action into work for an AI model, and the result comes back to the page. Most files in <span class="tag">app/</span> exist to make that loop safe, fast, and predictable.</p>
+    <div class="flow" style="margin-top:18px;">
+      <div class="node"><strong>Browser page</strong><br><span style="color:#a0a6b1">/+translate, /estimate-conversion, /bg, /operations…</span></div>
+      <div class="arrow">→</div>
+      <div class="node"><strong>FastAPI routes</strong><br><span style="color:#a0a6b1">app/routes.py handles each page</span></div>
+      <div class="arrow">→</div>
+      <div class="node"><strong>Engine modules</strong><br><span style="color:#a0a6b1">prompt builder, model client, parser</span></div>
+      <div class="arrow">→</div>
+      <div class="node"><strong>Local model server</strong><br><span style="color:#a0a6b1">Llamafile / Ollama</span></div>
+      <div class="arrow">→</div>
+      <div class="node"><strong>Result back to page</strong></div>
+    </div>
+  </section>
+
+  <!-- Slide 3 -->
+  <section class="slide">
+    <h2>2. The Engines Inside the App</h2>
+    <div class="two">
+      <div class="card">
+        <h4>Translation engines</h4>
+        <ul>
+          <li><strong>Tech translator</strong> — turns rough mechanic notes into customer-facing wording.</li>
+          <li><strong>Advisor translator</strong> — same idea, but for advisor/customer text lines.</li>
+          <li><strong>Intake translator</strong> — turns customer symptom text into a clean RO concern.</li>
+          <li><strong>Quality checkers</strong> — score note clarity before translation.</li>
+        </ul>
+      </div>
+      <div class="card">
+        <h4>Conversion / admin engines</h4>
+        <ul>
+          <li><strong>Estimate converter</strong> — reads Mitchell PDFs, routes them through an AI estimate pipeline, outputs quotes.</li>
+          <li><strong>BG coverage</strong> — local rules lookup for service contracts.</li>
+          <li><strong>Operations digest</strong> — monthly report generation with a manager passcode.</li>
+          <li><strong>Knowledge / cases</strong> — lookup approved translation examples.</li>
+        </ul>
+      </div>
+    </div>
+    <div class="card" style="margin-top:14px;">
+      <h4>Infrastructure engines</h4>
+      <ul>
+        <li><strong>Model client</strong> — one gateway that supports <span class="pill blue">Llamafile</span> or <span class="pill green">Ollama</span> with retry shaping.</li>
+        <li><strong>Prompt templates</strong> — strict JSON envelopes that keep output consistent.</li>
+        <li><strong>Network guard + upload security</strong> — loopback enforcement, file limits, correlation IDs.</li>
+        <li><strong>Self-cleaning + logging</strong> — age-based file purge and structured request tracing.</li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- Slide 4 -->
+  <section class="slide">
+    <h2>3. Server Start-Up Flow</h2>
+    <p style="color: var(--dim);">When you launch the Linux startup script, it performs a defined sequence instead of blindly starting the web app.</p>
+    <div class="flow" style="margin-top:16px;">
+      <div class="node"><strong>Venv setup</strong><br><span style="color:#a0a6b1">creates <span class="tag">.venv</span> and pip installs dependencies from offline wheelhouse</span></div>
+      <div class="arrow">→</div>
+      <div class="node"><strong>Shared Qwen model</strong><br><span style="color:#a0a6b1">starts one Qwen3 llamafile on 8080</span></div>
+      <div class="arrow">→</div>
+      <div class="node"><strong>FastAPI app</strong><br><span style="color:#a0a6b1"><span class="tag">app/main.py</span></span></div>
+      <div class="arrow">→</div>
+      <div class="node"><strong>On startup</strong><br><span style="color:#a0a6b1">init DB, restart stuck translations, start cleanup thread</span></div>
+      <div class="arrow">→</div>
+      <div class="node"><strong>Loopback guard</strong><br><span style="color:#a0a6b1">reject non-127.0.0.1 clients</span></div>
+    </div>
+    <p class="meta" style="margin-top:12px;">Key files: <span class="tag">start_autoro_linux.sh</span> <span class="tag">app/main.py</span> <span class="tag">app/network_guard.py</span> <span class="tag">app/cleanup.py</span></p>
+  </section>
+
+  <!-- Slide 5 -->
+  <section class="slide">
+    <h2>4. The Browser ↔ Server Contract</h2>
+    <p style="color: var(--dim);">FastAPI is just the surface. Each page/function lives in <span class="tag">app/routes.py</span> and calls smaller engines it imports at the top.</p>
+    <pre>routes.py → app/model_client.generate(...)
+         → app/prompt_templates.build_translation_prompt(...)
+         → app/normalizer.normalize_translation_response(...)
+         → app/database.save_translation(...)
+
+routes.py → app/estimate_conversion.run_estimate_conversion(...)
+         → subprocess.run(["python scripts/parse_mitchell_pdf.py ..."])
+         → app/routes: resolve_output_pdf(...)</pre>
+    <div class="row" style="margin-top:14px;">
+      <div class="card">
+        <h4>Why split files?</h4>
+        <p>Routes handle browser behavior — pages and JSON responses. Engines handle one specific behavior — prompts, network calls, PDF parsing. If one engine breaks, the rest can keep running.</p>
+      </div>
+      <div class="card">
+        <h4>Why correlation IDs?</h4>
+        <p>Every request gets an ID. If something breaks, the same ID appears in logs, so you can retrace one customer-facing action end to end.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Slide 6 -->
+  <section class="slide">
+    <h2>5. Translation Engine: How Notes Become Customer Words</h2>
+    <p style="color: var(--dim);">This is the app’s “AI” part, but it is very narrow: rough shop text → clean customer wording, with guardrails.</p>
+    <div class="flow" style="margin-top:14px;">
+      <div class="node"><strong>User input</strong><br><span style="color:#a0a6b1">mechanic note + qualifiers</span></div>
+      <div class="arrow">→</div>
+      <div class="node"><strong>Prompt builder</strong><br><span style="color:#a0a6b1">strict rules + JSON envelope</span></div>
+      <div class="arrow">→</div>
+      <div class="node"><strong>Model call</strong><br><span style="color:#a0a6b1">Qwen via Llamafile</span></div>
+      <div class="arrow">→</div>
+      <div class="node"><strong>Normalizer</strong><br><span style="color:#a0a6b1">extract only customer_explanation</span></div>
+      <div class="arrow">→</div>
+      <div class="node"><strong>Database + UI</strong></div>
+    </div>
+    <pre style="margin-top:14px;">
+SYSTEM_RULES:
+- Return ONLY valid JSON, one key: customer_explanation
+- Do NOT invent specs, safety claims, TSBs, timelines
+- Do NOT overpromise; vague stays vague
+- Example: "r&r rr axle seal, cleaned bpads, road test ok"
+  → "The rear axle seal was replaced and the brake pads...
+</pre>
+  </section>
+
+  <!-- Slide 7 -->
+  <section class="slide">
+    <h2>6. Why “Customer Explanation” is hard</h2>
+    <p style="color: var(--dim);">A technician writes notes under time pressure — short, abbreviated, sometimes wrong. A customer-facing sentence cannot contain that noise, or safety-adjacent confusion.</p>
+    <div class="two">
+      <div class="card">
+        <h4>Raw note</h4>
+        <p>“R&R RR axle seal, cleaned bpads, road test ok. LF strut noisy, check.”</p>
+      </div>
+      <div class="card">
+        <h4>System behavior</h4>
+        <p>The rules tell the model to keep confirmed facts, preserve “check” as a recommendation rather than a repair, and never invent torque specs, prices, or a “safe to drive” guarantee the note never wrote.</p>
+      </div>
+    </div>
+    <div class="card" style="margin-top:14px;">
+      <h4>Real safety property</h4>
+      <p>The app isn’t trying to be clever. It is trying to be bounded. Most heavy logic is decreasing the chance of an AI sentence creating legal, safety, or warranty exposure on a customer invoice.</p>
+    </div>
+    <p class="meta">Implementation: <span class="tag">app/prompt_templates.py</span> → <span class="tag">app/normalizer.py</span> → <span class="tag">app/note_quality.py</span></p>
+  </section>
+
+  <!-- Slide 8 -->
+  <section class="slide">
+    <h2>7. Translation Data Paths</h2>
+    <div class="row">
+      <div class="card">
+        <h4>Tech translator path</h4>
+        <pre><span style="color:#a0a6b1">/translate → translator.html → /api/translate</span>
+
+<span style="color:#a0a6b1">POST body:</span>
+{
+  "vehicle_year": 2019,
+  "vehicle_make": "Toyota",
+  "vehicle_model": "Tacoma",
+  "technician_note": "r&r rr axle seal",
+  "category": "Repair",
+  "qualifier_answers": {}
+}
+
+<span style="color:#a0a6b1">ENVELOPE enforced:</span>
+{"customer_explanation": "..."}</pre>
+      </div>
+      <div class="card">
+        <h4>Advisor &amp; intake paths</h4>
+        <pre><span style="color:#a0a6b1">/advisor-queue → advisor_queue.html</span>
+<span style="color:#a0a6b1">/cases, /knowledge → cases.html</span>
+
+Different constructors, same math:
+• build_advisor_queue_prompt(raw_text)
+• build_intake_translation_prompt(raw_text, qualifiers)
+
+Same strict JSON extraction afterwards.</pre>
+      </div>
+    </div>
+  </section>
+
+  <!-- Slide 9 -->
+  <section class="slide">
+    <h2>8. Estimate Conversion Engine</h2>
+    <p style="color: var(--dim);">The estimate converter has its own engine because PDF parsing, PDF generation, and quoting logic are separate jobs from sentence translation.</p>
+    <div class="flow" style="margin-top:14px;">
+      <div class="node"><strong>Upload Mitchell PDF</strong><br><span style="color:#a0a6b1">stream_pdf_upload()</span></div>
+      <div class="arrow">→</div>
+      <div class="node"><strong>Python parser script</strong><br><span style="color:#a0a6b1">parse_mitchell_pdf.py</span></div>
+      <div class="arrow">→</div>
+      <div class="node"><strong>Preflight sanity</strong><br><span style="color:#a0a6b1">missing labor, misplaced parts</span></div>
+      <div class="arrow">→</div>
+      <div class="node"><strong>Shared Qwen3 model</strong><br><span style="color:#a0a6b1">llamafile:8080 with timed fallback</span></div>
+      <div class="arrow">→</div>
+      <div class="node"><strong>PDF output</strong><br><span style="color:#a0a6b1">reportlab, branded PDF</span></div>
+    </div>
+    <pre style="margin-top:14px;">
+run_estimate_conversion(payload)
+ ├── _parse_for_record()            # pdftotext import record
+ ├── history_prefix(...)            # unique filename prefix
+ ├── subprocess.run([
+ │     python scripts/parse_mitchell_pdf.py ... --mode preestimate --model Qwen3-4B ...
+ │   ])
+ ├── _extract_final_pdf(stdout)     # find generated PDF path
+ └── resolve_output_pdf(...)        # return standardized path</pre>
+  </section>
+
+  <!-- Slide 10 -->
+  <section class="slide">
+    <h2>9. Why the Conversion Uses a Subprocess</h2>
+    <div class="two">
+      <div class="card">
+        <h4>Constraint</h4>
+        <p>The Mitchell PDF pipeline was already a standalone Python script before this server app existed. Reusing it as an already-tested tool is the small, correct step.</p>
+      </div>
+      <div class="card">
+        <h4>Safety</h4>
+        <p>The app wraps it with validation: mode whitelist, file existence checks, single conversion slot, timeout, and an import record so every run is auditable.</p>
+      </div>
+    </div>
+    <pre style="margin-top:14px;">conversion_slot = BoundedSemaphore(value=1)
+
+allowed modes: preestimate | quote | proposal
+
+if provider == "llamafile" and mode in {"quote","proposal"}:
+    require estimator online</pre>
+  </section>
+
+  <!-- Slide 11 -->
+  <section class="slide">
+    <h2>10. Model Client: One Router, Two Backends</h2>
+    <p style="color: var(--dim);"><span class="tag">app/model_client.py</span> hides whether the AI is talking to Llamafile or Ollama. The rest of the app never decides backend by itself.</p>
+    <pre>generate(prompt, model_name?, timeout?)
+ ├── read settings.model_provider
+ ├── if ollama → generate_ollama(...)
+ └── if llamafile → POST /v1/chat/completions
+                    {"messages":[{"role":"user","content":prompt}]}
+                    non-stream, temp=0.2, max_tokens from settings</pre>
+    <div class="row" style="margin-top:14px;">
+      <div class="card">
+        <h4>Shared local backend</h4>
+        <p><span class="pill blue">Llamafile 8080</span> — tech/advisor translation and estimate wording. Model: <span class="tag">Qwen3-4B-Instruct-2507</span></p>
+      </div>
+      <div class="card">
+        <h4>Bounded estimate enrichment</h4>
+        <p>Custom Build allows 15 seconds and in-shop analysis allows 45 seconds before source-grounded local fallback completes the workflow.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Slide 12 -->
+  <section class="slide">
+    <h2>11. Why Local Models</h2>
+    <div class="two">
+      <div class="card">
+        <h4>Data boundary</h4>
+        <p>Customer vehicle information, labor notes, and ROS never leave the USB drive when running loopback-only. This is a compliance property, not just preference.</p>
+      </div>
+      <div class="card">
+        <h4>Cost and dependency</h4>
+        <p>No API keys, no tokens, no account limits. The drive is self-contained; installers and wheelhouses are bundled.</p>
+      </div>
+    </div>
+    <div class="card" style="margin-top:14px;">
+      <h4>Tradeoff</h4>
+      <p>Running on CPU/Llamafile means the model is small: <span class="tag">4B</span> and <span class="tag">3B</span> parameters by design. Prompt discipline carries more weight than model size. That’s why the JSON envelope and rules are strict.</p>
+    </div>
+  </section>
+
+  <!-- Slide 13 -->
+  <section class="slide">
+    <h2>12. Security Constraints That Shape Behavior</h2>
+    <ul>
+      <li><strong>Loopback only</strong> — rejects any client that is not from <span class="tag">127.0.0.1</span>. That means no default “open from phone” shortcut without a separate, explicit redesign.</li>
+      <li><strong>Host-header rejection</strong> — blocks non-loopback host headers.</li>
+      <li><strong>CSRF style guard</strong> — expect state-changing browser POSTs to require appropriate origin.</li>
+      <li><strong>Operations pin</strong> — <span class="pill amber">2470</span> manager code gates the operations digest APIs.</li>
+      <li><strong>Upload restrictions</strong> — PDF size bound, optional delete-after-run, temporary workspace, no arbitrary directory write.</li>
+    </ul>
+    <p class="meta">Implementation: <span class="tag">app/network_guard.py</span> <span class="tag">app/upload_security.py</span> <span class="tag">app/routes.py</span></p>
+  </section>
+
+  <!-- Slide 14 -->
+  <section class="slide">
+    <h2>13. PDF Parsing and Output Path</h2>
+    <p style="color: var(--dim);">Conversion does not invent PDF generation inline for line items. It reuses the bundled Mitchell parser and adds document assembly on top.</p>
+    <pre>parse_mitchell_pdf.py
+ ├── pdftotext/MuPDF extraction
+ ├── structured line items + labor/parts
+ ├── sanity_confirmed check
+ └── outputs state importable to PDF/print
+
+Outputs:
+   • front-end quote PDF via reportlab
+   • runtime/import_records/*.json for audit</pre>
+    <div class="card" style="margin-top:14px;">
+      <h4>Bundled tools</h4>
+      <p><span class="tag">reportlab</span> builds branded PDFs. <span class="tag">pdftotext</span> from Poppler extracts readable text. Both are either bundled, installed offline, or rejected by readiness checks.</p>
+    </div>
+  </section>
+
+  <!-- Slide 15 -->
+  <section class="slide">
+    <h2>14. Background Safety Systems</h2>
+    <div class="two">
+      <div class="card">
+        <h4>Cleanup thread</h4>
+        <p>Starts on server boot. Removes logs older than 14 days, orphan uploads older than 1 day, and old import records after 30 days.</p>
+      </div>
+      <div class="card">
+        <h4>Preflight checks</h4>
+        <p>Before any quote PDF is built, the system flags parts-without-labor, misplaced steering parts, and duplicate/split lines so the advisor can correct the estimate before it becomes a customer document.</p>
+      </div>
+    </div>
+    <pre style="margin-top:14px;">@app.on_event("startup")
+def on_startup() -> None:
+    init_db()
+    threading.Thread(target=run_auto_cleanup, daemon=True).start()
+    # reset stuck translations from previous shutdown</pre>
+  </section>
+
+  <!-- Slide 16 -->
+  <section class="slide">
+    <h2>15. Database and Case Library</h2>
+    <p style="color: var(--dim);">The database stores translations, approved examples, and management stats — no cloud sync, no ORM complexity, direct SQLite.</p>
+    <div class="flow" style="margin-top:14px;">
+      <div class="node"><strong>Translation queue + history</strong><br><span style="color:#a0a6b1">advisor_translation_queue, approved_examples</span></div>
+      <div class="arrow">→</div>
+      <div class="node"><strong>Management report</strong><br><span style="color:#a0a6b1">daily/rolling stats endpoint</span></div>
+      <div class="arrow">→</div>
+      <div class="node"><strong>Cases / knowledge</strong><br><span style="color:#a0a6b1">searchable approved translations</span></div>
+    </div>
+    <pre style="margin-top:14px;">database.py exposes:
+ • get_db()               # sqlite3 connection
+ • get_stats()            # advisor translation counts
+ • get_management_report() # ops counts
+ • init_db()               # schema bootstrapping</pre>
+    <p class="meta">Data path: <span class="tag">runtime/Database/autoro.db</span></p>
+  </section>
+
+  <!-- Slide 17 -->
+  <section class="slide">
+    <h2>16. Get from A to B: A Real Example</h2>
+    <p style="color: var(--dim);">A service advisor clicks “Convert to Quote” for an uploaded Mitchell PDF at <span class="tag">/estimate-conversion</span>.</p>
+    <pre style="font-size:13px;">
+1. Browser sends form + PDF path to /api/estimate-conversion
+2. app/routes.py calls run_estimate_conversion()
+3. run_estimate_conversion():
+     • acquires conversion_slot
+     • reads input PDF from workspace uploads
+     • runs parse_mitchell_pdf.py via subprocess
+       with mode=preestimate and the shared Qwen3 model on 8080
+     • captures stdout → extracts final PDF path
+     • releases slot
+4. Routes returns JSON with output PDF path and report file
+5. Browser enables “Download Quote PDF” button</pre>
+    <p class="meta">Only one quote runs at a time to protect that single model slot from parallel overload.</p>
+  </section>
+
+  <!-- Slide 18 -->
+  <section class="slide">
+    <h2>17. Loops, Bounded Concurrency, and Retries</h2>
+    <div class="two">
+      <div class="card">
+        <h4>Semaphores</h4>
+        <p>Translation has a queue lock and boolean guard; estimate conversion has a bounded semaphore. Both prevent concurrent writes into the same model socket.</p>
+      </div>
+      <div class="card">
+        <h4>Not magical, protective</h4>
+        <p>The app trades throughput for predictability. One conversion at a time is still fast enough and avoids corrupting the estimator output.</p>
+      </div>
+    </div>
+    <pre style="margin-top:14px;">_queue_lock = threading.Lock()
+_queue_is_processing = False
+
+_conversion_slot = threading.BoundedSemaphore(value=1)
+
+if not _conversion_slot.acquire(blocking=False):
+    raise RuntimeError("Another estimate conversion is already running.")</pre>
+  </section>
+
+  <!-- Slide 19 -->
+  <section class="slide">
+    <h2>18. Release Identity</h2>
+    <p style="color: var(--dim);">Every drive can be verified against a release manifest, so the shop can tell whether the code files match a known, signed-by-construction release.</p>
+    <pre>GET /api/release
+ {
+   "release_id": "d1fedb885d47...",
+   "verified": true
+ }</pre>
+    <div class="row" style="margin-top:14px;">
+      <div class="card">
+        <h4>App behavior</h4>
+        <p>On startup and on demand, reads <span class="tag">RELEASE_MANIFEST.json</span> and returns verification status.</p>
+      </div>
+      <div class="card">
+        <h4>Dev tooling</h4>
+        <p><span class="tag">dev_tools/release_identity.py</span> compares runtime files to release expectations and writes drift records.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Slide 20 -->
+  <section class="slide">
+    <h2>19. Summary</h2>
+    <div class="row">
+      <div class="card">
+        <h4>What the app does well</h4>
+        <p>It keeps customer-visible text safe, keeps data local, and runs from removable media with fixed offline dependencies. It avoids the usual web-app risks: cloud exposure, mystery runtime, dependency drift.</p>
+      </div>
+      <div class="card">
+        <h4>Where it stays narrow</h4>
+        <p>It does not manage Mitchell state, scheduling, parts inventory, or customer billing. That architectural choice keeps review scope small and shipping velocity high.</p>
+      </div>
+    </div>
+    <div class="card" style="margin-top:14px;">
+      <h4>The mental model</h4>
+      <p>Blueprints over features. The app is several small engines connected by routes — translation engine, conversion engine, BG rules, operations digest, case library — not one giant bundle of AI logic. That is why it can be explained, reviewed, and verified.</p>
+    </div>
+  </section>
+
+</div>
+</div>
+</body>
+</html>

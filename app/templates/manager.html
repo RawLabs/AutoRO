@@ -1,0 +1,103 @@
+{% extends "base.html" %}
+{% block title %}Manager | AutoRO Communication Layer{% endblock %}
+{% block page_id %}manager{% endblock %}
+
+{% block content %}
+<section id="manager-lock" class="manager-lock panel stack">
+  <div>
+    <p class="eyebrow">Restricted monthly digest</p>
+    <h1>Operations Reports</h1>
+  </div>
+  <form id="manager-code-form" class="stack">
+    <label>Security code
+      <input id="manager-code" name="manager_code" type="password" inputmode="numeric" autocomplete="off">
+    </label>
+    <button class="primary-button" type="submit">Unlock Reports</button>
+  </form>
+</section>
+
+<div id="manager-app" hidden>
+<section class="page-head">
+  <div>
+    <p class="eyebrow">Mitchell-style report ingest demo</p>
+    <h1>AutoRO Communication Layer</h1>
+  </div>
+  <div class="button-row">
+    <button id="manager-import" class="primary-button" type="button">Import Demo Reports</button>
+    <button id="manager-recalc" class="secondary-button" type="button">Recalculate Dashboard</button>
+    <button class="secondary-button" type="button" data-print-target="manager-dashboard">Print Dashboard</button>
+    <button id="manager-copy-summary" class="secondary-button icon-label-button" type="button" title="Copy dashboard summary" aria-label="Copy dashboard summary">⧉</button>
+    <button id="manager-export-json" class="secondary-button" type="button">Export Selected Data</button>
+    <button id="manager-relock" class="secondary-button" type="button">Relock</button>
+  </div>
+</section>
+
+<section class="manager-tabs" role="tablist" aria-label="AutoRO Manager tabs">
+  <button class="manager-tab active" type="button" data-manager-tab="dashboard">Dashboard</button>
+  <button class="manager-tab" type="button" data-manager-tab="analytics">Full Analytics Breakdown</button>
+  <button class="manager-tab" type="button" data-manager-tab="reports">Source Reports</button>
+  <button class="manager-tab" type="button" data-manager-tab="ask">Ask AutoRO Manager</button>
+</section>
+
+<section id="manager-dashboard" class="manager-panel active" data-manager-panel="dashboard">
+  <article class="panel">
+    <div class="panel-head">
+      <h2>Shop Health Summary</h2>
+      <span id="manager-date-range" class="model-pill">No reports imported</span>
+    </div>
+    <div id="manager-kpi-grid" class="manager-kpi-grid"></div>
+  </article>
+</section>
+
+<section class="manager-panel" data-manager-panel="analytics">
+  <div id="manager-analytics" class="stack"></div>
+</section>
+
+<section class="manager-panel" data-manager-panel="reports">
+  <article class="panel stack">
+    <div class="panel-head">
+      <h2>Source Reports</h2>
+      <button class="secondary-button compact-button icon-label-button" type="button" data-copy-table="manager-report-list" title="Copy report list" aria-label="Copy report list">⧉</button>
+    </div>
+    <div id="manager-report-list" class="table-wrap"></div>
+  </article>
+  <article id="manager-report-detail-panel" class="panel stack manager-report-detail" hidden>
+    <div class="panel-head">
+      <div>
+        <h2 id="manager-report-title">Report</h2>
+        <p id="manager-report-count" class="muted"></p>
+      </div>
+      <div class="button-row">
+        <input id="manager-report-filter" type="search" placeholder="Filter report">
+        <button class="secondary-button compact-button icon-label-button" type="button" data-copy-table="manager-report-table" title="Copy table" aria-label="Copy table">⧉</button>
+        <button class="secondary-button compact-button" type="button" data-print-target="manager-report-detail-panel">Print Report</button>
+      </div>
+    </div>
+    <div id="manager-report-table" class="table-wrap"></div>
+  </article>
+</section>
+
+<section class="manager-panel" data-manager-panel="ask">
+  <article class="panel stack">
+    <h2>Ask AutoRO Manager</h2>
+    <form id="manager-ask-form" class="stack">
+      <label>Question
+        <textarea name="question" rows="4" placeholder="Why is gross profit down? What should Dean look at first? Which reports support that answer?"></textarea>
+      </label>
+      <button id="manager-ask-button" class="primary-button" type="submit">Ask Manager</button>
+    </form>
+  </article>
+  <article id="manager-answer-card" class="panel stack" hidden>
+    <div class="panel-head">
+      <h2>Manager Answer</h2>
+      <div class="button-row">
+        <button id="manager-copy-answer" class="secondary-button compact-button icon-label-button" type="button" title="Copy answer" aria-label="Copy answer">⧉</button>
+        <button class="secondary-button compact-button" type="button" data-print-target="manager-answer-card">Print Answer</button>
+        <button id="manager-export-answer" class="secondary-button compact-button" type="button">Export Answer</button>
+      </div>
+    </div>
+    <pre id="manager-answer-output" class="manager-answer"></pre>
+  </article>
+</section>
+</div>
+{% endblock %}

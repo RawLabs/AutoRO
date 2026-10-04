@@ -1,0 +1,69 @@
+{% extends "base.html" %}
+{% block title %}BG Coverage | AutoRO Communication Layer{% endblock %}
+{% block page_id %}bg-lookup{% endblock %}
+
+{% block content %}
+<section class="page-head">
+  <div>
+    <p class="eyebrow">BG coverage / roadside support</p>
+    <h1>BG Coverage</h1>
+  </div>
+  <a class="link-button" href="/translate">Translator</a>
+</section>
+
+<section class="translator-layout">
+  <form id="bg-lookup-form" class="panel stack">
+    <h2>Advisor Input</h2>
+    <label>BG service proposed or performed
+      <select id="bg-service-select" name="service_id" required>
+        <option value="">Loading BG services...</option>
+      </select>
+    </label>
+    <label>Status
+      <select name="service_status">
+        <option value="proposed">Proposed</option>
+        <option value="performed">Performed</option>
+      </select>
+    </label>
+    <label>Coverage basis
+      <select name="coverage_basis">
+        <option value="initial">New / first-time coverage check</option>
+        <option value="existing">Existing active BG coverage</option>
+      </select>
+    </label>
+
+    <h2>Vehicle</h2>
+    <div class="field-grid">
+      <label>Year<input name="year" type="number" inputmode="numeric"></label>
+      <label>Make<input name="make" type="text"></label>
+      <label>Model<input name="model" type="text"></label>
+      <label>Mileage km<input name="mileage_km" type="number" inputmode="numeric" required></label>
+      <label>Fuel type
+        <select name="fuel_type">
+          <option value="">Unknown</option>
+          <option value="gasoline">Gasoline</option>
+          <option value="diesel">Diesel</option>
+          <option value="hybrid">Hybrid</option>
+          <option value="ev">EV</option>
+        </select>
+      </label>
+      <label>Transmission
+        <select name="transmission_type">
+          <option value="">Unknown</option>
+          <option value="automatic">Automatic</option>
+          <option value="cvt">CVT</option>
+          <option value="manual">Manual</option>
+        </select>
+      </label>
+    </div>
+    <button id="bg-lookup-button" class="primary-button" type="submit">Build Coverage Card</button>
+  </form>
+
+  <section class="stack">
+    <article class="panel">
+      <h2>Customer Coverage Card</h2>
+      <div id="bg-output" class="output-empty">Select a BG service and vehicle details.</div>
+    </article>
+  </section>
+</section>
+{% endblock %}

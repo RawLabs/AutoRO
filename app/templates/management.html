@@ -1,0 +1,79 @@
+{% extends "base.html" %}
+{% block title %}Management | AutoRO Communication Layer{% endblock %}
+{% block page_id %}management{% endblock %}
+
+{% block content %}
+<section class="page-head">
+  <div>
+    <p class="eyebrow">Reports</p>
+    <h1>Management</h1>
+  </div>
+  <button id="refresh-management-button" class="secondary-button" type="button">Refresh</button>
+</section>
+
+<section class="stats-grid">
+  <article class="stat">
+    <span>Logged translations</span>
+    <strong id="mgmt-cases">0</strong>
+  </article>
+  <article class="stat">
+    <span>Approved examples</span>
+    <strong id="mgmt-approved">0</strong>
+  </article>
+  <article class="stat">
+    <span>Model runs</span>
+    <strong id="mgmt-runs">0</strong>
+  </article>
+  <article class="stat">
+    <span>Estimator</span>
+    <strong id="mgmt-estimator">Ready</strong>
+  </article>
+</section>
+
+<section class="management-grid">
+  <article class="panel">
+    <h2>Misses By Tech</h2>
+    <div id="misses-by-tech" class="report-list"></div>
+  </article>
+
+  <article class="panel">
+    <h2>Estimator Setup</h2>
+    <div id="management-estimator-status" class="status-list"></div>
+  </article>
+
+  <article class="panel">
+    <h2>Common Missing Details</h2>
+    <div id="common-missing-fields" class="report-list"></div>
+  </article>
+
+  <article class="panel">
+    <h2>Clarifier Categories</h2>
+    <div id="clarifier-pack-breakdown" class="report-list"></div>
+  </article>
+
+  <article class="panel">
+    <h2>Approval Breakdown</h2>
+    <div id="approval-breakdown" class="report-list"></div>
+  </article>
+
+  <article class="panel">
+    <h2>Categories</h2>
+    <div id="category-breakdown" class="report-list"></div>
+  </article>
+
+  <article class="panel">
+    <h2>Recent Translations</h2>
+    <div id="management-recent-cases" class="case-list wide"></div>
+  </article>
+
+  <article class="panel">
+    <h2>Model Run Status</h2>
+    <div id="model-run-breakdown" class="report-list"></div>
+  </article>
+
+  <article class="panel">
+    <h2>Recent Model Runs</h2>
+    <div id="management-recent-runs" class="report-list"></div>
+  </article>
+</section>
+{% endblock %}

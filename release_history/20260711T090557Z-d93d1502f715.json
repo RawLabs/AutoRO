@@ -1,0 +1,280 @@
+{
+  "manifest_version": "1.0",
+  "generated_at_utc": "2026-07-11T09:05:57.594169+00:00",
+  "release_id": "20260711T090557Z-d93d1502f715",
+  "archived_previous_manifest": {
+    "prior_release_id": "20260711T090517Z-d93d1502f715",
+    "archived_to": "/media/ghost/OSCOO USSD/release_history/20260711T090517Z-d93d1502f715.json"
+  },
+  "identity_scope": {
+    "include_globs": [
+      "app/*.py",
+      "app/**/*.py",
+      "app/static/**/*.js",
+      "app/static/**/*.css",
+      "app/templates/**/*.html",
+      "schema.sql",
+      "README.md",
+      "start_autoro_linux.sh",
+      "start_autoro.bat",
+      "start_autoro.ps1",
+      "dev_tools/*.py",
+      "dev_tools/**/*.py",
+      "estimate_conversion/scripts/**/*.py",
+      "estimate_conversion/workspace/estimates/**/*.py"
+    ],
+    "exclude_dirs": [
+      ".Trash-1000",
+      ".git",
+      ".mypy_cache",
+      ".pytest_cache",
+      ".venv",
+      "Database",
+      "Tools",
+      "__pycache__",
+      "autoro_outbox",
+      "import_records",
+      "logs",
+      "node_modules",
+      "uploads",
+      "venv"
+    ]
+  },
+  "autoro_root": "/media/ghost/OSCOO USSD",
+  "tree_fingerprint_sha256": "d93d1502f71586e2fc9ca06c829e4741934a450b50a76becc7bd1d29efe4c6d1",
+  "file_count": 36,
+  "newest_file_utc": "2026-07-11T09:05:13+00:00",
+  "key_file_hashes": {
+    "app/main.py": "7b1b24fb38dc90b83b60a265add8b47c4ba65d2c5435d0be53bc0edc51db2d64",
+    "app/config.py": "0c816d7724a6b753ae2ac7a80ddb009cff16378f2fd3cbc68b6cacc3de6335c3",
+    "app/routes.py": "b59eaf222ceb0bd0d624a51245388fce9834806f1df270ba01bb6a5fea16ea5d",
+    "app/database.py": "fc0b15e0de2b6e785f3f64ec674abf4ceaa70bc1fa969e740b75e7556266a936",
+    "app/schemas.py": "72f61f541f92a04bebeddd14e771779d8adf500e3a326cfcc3b2f422377c2687",
+    "app/estimate_conversion.py": "00b9e922f0a4dcd4c6005639768a7b35b280e720b89d748482a22ab6a17c2bdd",
+    "app/note_quality.py": "5615372a049dc2b211aed5154654543410075da1f84ff445ef4b6b87a9673afe",
+    "app/bg_rules.py": "5e60558705825b220050aa3b7f9f3180afd32399dd632028685be879feb33c16",
+    "app/static/js/estimates.js": "dd6ef44000f81d56f66698d8e4705cc96c2af18a725fc97e192e388eda07eff0",
+    "app/static/js/translator.js": "9a1e64e92b9bfc8e42daab82ff324561c72bd66086f6a4f2d2d3b4bfc4dbbf94",
+    "app/static/js/advisor_queue.js": "d419dc385914306c9aa49a5625bc3e20470abb1053298c019e4b5eb6621d7b0c",
+    "README.md": "9219072ca40b2f00dbaf1ba500509e8c44cd5998aa0d9c71d0e241970345602c",
+    "start_autoro_linux.sh": "d723e0a842189cb301341af839ecdb5fabdadd4805922acee4804cc1ec967b97"
+  },
+  "files": [
+    {
+      "path": "README.md",
+      "sha256": "9219072ca40b2f00dbaf1ba500509e8c44cd5998aa0d9c71d0e241970345602c",
+      "size_bytes": 8000,
+      "mtime_utc": "2026-07-11T08:08:32.940000+00:00"
+    },
+    {
+      "path": "app/__init__.py",
+      "sha256": "01ba4719c80b6fe911b091a7c05124b64eeece964e09c058ef8f9805daca546b",
+      "size_bytes": 1,
+      "mtime_utc": "2026-05-28T02:41:07.350000+00:00"
+    },
+    {
+      "path": "app/bg_rules.py",
+      "sha256": "5e60558705825b220050aa3b7f9f3180afd32399dd632028685be879feb33c16",
+      "size_bytes": 34701,
+      "mtime_utc": "2026-06-24T23:58:17.050000+00:00"
+    },
+    {
+      "path": "app/cleanup.py",
+      "sha256": "9dcca609bb0e9e5a13dc75caf2147c28c3c670cc9fc55517226a1c2a54206c69",
+      "size_bytes": 2141,
+      "mtime_utc": "2026-07-01T03:50:01.230000+00:00"
+    },
+    {
+      "path": "app/config.py",
+      "sha256": "0c816d7724a6b753ae2ac7a80ddb009cff16378f2fd3cbc68b6cacc3de6335c3",
+      "size_bytes": 2413,
+      "mtime_utc": "2026-07-01T04:44:15.180000+00:00"
+    },
+    {
+      "path": "app/database.py",
+      "sha256": "fc0b15e0de2b6e785f3f64ec674abf4ceaa70bc1fa969e740b75e7556266a936",
+      "size_bytes": 31510,
+      "mtime_utc": "2026-07-01T05:50:22.130000+00:00"
+    },
+    {
+      "path": "app/estimate_conversion.py",
+      "sha256": "00b9e922f0a4dcd4c6005639768a7b35b280e720b89d748482a22ab6a17c2bdd",
+      "size_bytes": 23424,
+      "mtime_utc": "2026-07-11T08:05:49.480000+00:00"
+    },
+    {
+      "path": "app/intake_quality.py",
+      "sha256": "729c4137004076a211d6d56a385bd049a957323aa11044d0689ed31443e6903b",
+      "size_bytes": 9207,
+      "mtime_utc": "2026-07-02T21:12:40.460000+00:00"
+    },
+    {
+      "path": "app/logger.py",
+      "sha256": "f211e56368ab71f0e8f365752e28bd2eb8b06c01a3ce342d900fd0581ac72d4c",
+      "size_bytes": 1767,
+      "mtime_utc": "2026-07-01T04:20:10.660000+00:00"
+    },
+    {
+      "path": "app/main.py",
+      "sha256": "7b1b24fb38dc90b83b60a265add8b47c4ba65d2c5435d0be53bc0edc51db2d64",
+      "size_bytes": 1561,
+      "mtime_utc": "2026-07-01T04:20:18.270000+00:00"
+    },
+    {
+      "path": "app/model_client.py",
+      "sha256": "7e4a7fe99c801dc4681cf2cc6db5ab1d31aeb09ca0044316f56ffb46353b455b",
+      "size_bytes": 3102,
+      "mtime_utc": "2026-06-25T21:07:51.810000+00:00"
+    },
+    {
+      "path": "app/normalizer.py",
+      "sha256": "7fe43b9306ff406def027e775b502c080baae5787f7f0bb31f6a4b85fb63e79a",
+      "size_bytes": 7769,
+      "mtime_utc": "2026-06-27T22:38:39.710000+00:00"
+    },
+    {
+      "path": "app/note_quality.py",
+      "sha256": "5615372a049dc2b211aed5154654543410075da1f84ff445ef4b6b87a9673afe",
+      "size_bytes": 6805,
+      "mtime_utc": "2026-06-27T22:34:50.480000+00:00"
+    },
+    {
+      "path": "app/ollama_client.py",
+      "sha256": "c61f9ea75a4953494771709c1125a15230dcb68ee2c66daec262f9a50ead48fd",
+      "size_bytes": 1694,
+      "mtime_utc": "2026-05-28T02:37:32.470000+00:00"
+    },
+    {
+      "path": "app/operations_reports.py",
+      "sha256": "7f7fc6d1cf9fb608f6d41df5cd117c0f8b941f5780f016777b9a8e6c2f67506f",
+      "size_bytes": 10430,
+      "mtime_utc": "2026-06-25T07:07:45.060000+00:00"
+    },
+    {
+      "path": "app/parse_asr_pdf.py",
+      "sha256": "2ac8fef5e6d52c0bab633b10278498a8e026038053ecb7c23b7c7bd123720155",
+      "size_bytes": 14351,
+      "mtime_utc": "2026-07-11T06:54:52.940000+00:00"
+    },
+    {
+      "path": "app/prompt_templates.py",
+      "sha256": "66eba37d161ff8396a545eb05eb3339a774e24202ef912ccf2261f5d2ede8645",
+      "size_bytes": 5506,
+      "mtime_utc": "2026-07-02T21:12:51.520000+00:00"
+    },
+    {
+      "path": "app/routes.py",
+      "sha256": "b59eaf222ceb0bd0d624a51245388fce9834806f1df270ba01bb6a5fea16ea5d",
+      "size_bytes": 31736,
+      "mtime_utc": "2026-07-11T09:05:13+00:00"
+    },
+    {
+      "path": "app/schemas.py",
+      "sha256": "72f61f541f92a04bebeddd14e771779d8adf500e3a326cfcc3b2f422377c2687",
+      "size_bytes": 4858,
+      "mtime_utc": "2026-07-02T21:12:46.630000+00:00"
+    },
+    {
+      "path": "app/static/css/app.css",
+      "sha256": "ffad9d584fbccd7672b3abefd2efac5fac3cc2c04353ccbf04e7933c91cc7ae6",
+      "size_bytes": 21311,
+      "mtime_utc": "2026-07-02T21:28:44.350000+00:00"
+    },
+    {
+      "path": "app/static/js/advisor_queue.js",
+      "sha256": "d419dc385914306c9aa49a5625bc3e20470abb1053298c019e4b5eb6621d7b0c",
+      "size_bytes": 14193,
+      "mtime_utc": "2026-07-02T21:13:23.900000+00:00"
+    },
+    {
+      "path": "app/static/js/api.js",
+      "sha256": "2fedba0fe20fbf97c4f9f3f577498fddc4afb1ed618f65ddf3c1d7eeb6741e7a",
+      "size_bytes": 2409,
+      "mtime_utc": "2026-05-30T16:53:49.090000+00:00"
+    },
+    {
+      "path": "app/static/js/app.js",
+      "sha256": "1aa2ba014dff0c2b51240a5084e32d36156763d35151328b688d716ad35dd3a3",
+      "size_bytes": 2717,
+      "mtime_utc": "2026-06-27T04:29:32.570000+00:00"
+    },
+    {
+      "path": "app/static/js/bg.js",
+      "sha256": "bf5c87400d2575b77d20f5779755823bd59c059fcf1cba7030a91e00aa581cae",
+      "size_bytes": 14286,
+      "mtime_utc": "2026-06-24T23:59:57.380000+00:00"
+    },
+    {
+      "path": "app/static/js/cases.js",
+      "sha256": "4a361b22c1eca24b00f19fd9a1c1161ce15e5fd5596fcfedf628212e7a4ca03d",
+      "size_bytes": 5341,
+      "mtime_utc": "2026-05-30T08:24:03.940000+00:00"
+    },
+    {
+      "path": "app/static/js/estimate_inshop.js",
+      "sha256": "6202e7158f983cb77c787a978bc441eac9a1c2ebca17ff65b3d0428855004542",
+      "size_bytes": 8782,
+      "mtime_utc": "2026-07-02T06:06:40.970000+00:00"
+    },
+    {
+      "path": "app/static/js/estimates.js",
+      "sha256": "dd6ef44000f81d56f66698d8e4705cc96c2af18a725fc97e192e388eda07eff0",
+      "size_bytes": 16409,
+      "mtime_utc": "2026-07-11T08:25:06.220000+00:00"
+    },
+    {
+      "path": "app/static/js/management.js",
+      "sha256": "0b5c1b6c0cac86ab95c4006b3385d654ca222ab1bd04fb8861dd38ec0c1c4620",
+      "size_bytes": 5976,
+      "mtime_utc": "2026-06-26T02:38:55.490000+00:00"
+    },
+    {
+      "path": "app/static/js/manager.js",
+      "sha256": "8ea354db79a1c02cb0505912061ac79f16ac5fd92b997409ddff21c11ef13546",
+      "size_bytes": 11147,
+      "mtime_utc": "2026-06-25T06:51:58.470000+00:00"
+    },
+    {
+      "path": "app/static/js/translator.js",
+      "sha256": "9a1e64e92b9bfc8e42daab82ff324561c72bd66086f6a4f2d2d3b4bfc4dbbf94",
+      "size_bytes": 9235,
+      "mtime_utc": "2026-06-27T05:23:15.650000+00:00"
+    },
+    {
+      "path": "dev_tools/autoro_health_check.py",
+      "sha256": "71e99bf0d7afecef3b726ff8e1dede954281437b5c5133015b26e369d5a03583",
+      "size_bytes": 10110,
+      "mtime_utc": "2026-06-25T09:07:47.750000+00:00"
+    },
+    {
+      "path": "dev_tools/overnight_cycle_test.py",
+      "sha256": "4ce5d2c121a3fcd58b85f5205be009bed13ce288a9432cf950f4cc0e9bcc9ba0",
+      "size_bytes": 7895,
+      "mtime_utc": "2026-06-25T09:17:32.850000+00:00"
+    },
+    {
+      "path": "dev_tools/release_identity.py",
+      "sha256": "71e4931240deef137da9f81ee0cc8ba2d6dd6e82662b6ff6bbd8ba5a761bfb15",
+      "size_bytes": 9343,
+      "mtime_utc": "2026-07-01T04:44:17.190000+00:00"
+    },
+    {
+      "path": "dev_tools/test_inshop_flow.py",
+      "sha256": "c841b6965dea6686acd5e3fb1def9434893bdfd7047700a4522e3cd2af1e235a",
+      "size_bytes": 4489,
+      "mtime_utc": "2026-07-01T04:44:14.390000+00:00"
+    },
+    {
+      "path": "dev_tools/test_sanity_checks.py",
+      "sha256": "d4b1c8c2e0d9fd1b1b4aa8db233c3657e0fb761f9b20559f5129b341574dded5",
+      "size_bytes": 4072,
+      "mtime_utc": "2026-07-11T08:02:04.330000+00:00"
+    },
+    {
+      "path": "start_autoro_linux.sh",
+      "sha256": "d723e0a842189cb301341af839ecdb5fabdadd4805922acee4804cc1ec967b97",
+      "size_bytes": 4582,
+      "mtime_utc": "2026-07-01T05:47:22.120000+00:00"
+    }
+  ]
+}

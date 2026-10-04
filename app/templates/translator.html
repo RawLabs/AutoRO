@@ -1,0 +1,86 @@
+{% extends "base.html" %}
+{% block title %}Translator | AutoRO Communication Layer{% endblock %}
+{% block page_id %}translator{% endblock %}
+
+{% block content %}
+<section class="page-head">
+  <div>
+    <p class="eyebrow">Customer-facing explanation</p>
+    <h1>Technician Note Translator</h1>
+  </div>
+  <div class="actions">
+    <em id="status-translator" class="status-pill" data-state="unknown">Checking</em>
+  </div>
+</section>
+
+<section class="translator-layout">
+  <form id="translator-form" class="panel stack">
+    <h2>Input</h2>
+
+    <label>Technician
+      <input name="technician_name" type="text" placeholder="Optional">
+    </label>
+
+    <label>Category
+      <select name="category">
+        <option value="">Uncategorized</option>
+        <option value="maintenance">Maintenance</option>
+        <option value="brakes">Brakes</option>
+        <option value="suspension">Suspension</option>
+        <option value="steering">Steering</option>
+        <option value="engine">Engine</option>
+        <option value="electrical">Electrical</option>
+        <option value="cooling">Cooling</option>
+        <option value="fuel_system">Fuel system</option>
+        <option value="evap">EVAP</option>
+        <option value="hvac">HVAC</option>
+        <option value="driveline">Driveline</option>
+        <option value="transmission">Transmission</option>
+        <option value="diagnostic">Diagnostic</option>
+        <option value="ev">EV</option>
+      </select>
+    </label>
+
+    <label>Technician notes<textarea name="technician_note" rows="14"></textarea></label>
+
+    <button id="translate-button" class="primary-button" type="submit">Translate</button>
+  </form>
+
+  <section class="stack">
+    <article class="panel">
+      <h2>Customer-facing explanation</h2>
+      <div id="save-panel" class="stack save-panel">
+        <label>Model translation<textarea id="model-translation" rows="7" readonly placeholder="Model translation will appear here."></textarea></label>
+        <div class="field-with-action">
+          <label for="corrected-translation">Corrected customer explanation</label>
+          <button id="copy-corrected-button" class="secondary-button compact-button" type="button">Copy</button>
+          <textarea id="corrected-translation" rows="7" placeholder="Corrected customer explanation will appear here."></textarea>
+        </div>
+        <div class="button-row">
+          <button id="approve-translation-button" class="primary-button" type="button">Approve as Training Example</button>
+          <button id="logged-only-button" class="secondary-button" type="button">Keep Logged Only</button>
+        </div>
+      </div>
+    </article>
+  </section>
+</section>
+
+<section id="missing-info-dialog" class="missing-info-dialog" role="dialog" aria-modal="true" aria-labelledby="missing-info-title" hidden>
+  <div class="missing-info-card">
+    <div>
+      <p class="eyebrow">Quick confirm</p>
+      <h2 id="missing-info-title">Detail missing</h2>
+      <p id="missing-info-text" class="missing-info-text"></p>
+    </div>
+    <div id="missing-info-options" class="missing-info-options"></div>
+    <div class="missing-info-custom-row">
+      <input id="missing-info-custom" type="text" placeholder="Type detail, then Enter">
+      <button id="missing-info-add" class="secondary-button compact-button" type="button">Add</button>
+    </div>
+    <div class="button-row">
+      <button id="missing-info-skip" class="secondary-button" type="button">Translate Anyway</button>
+      <button id="missing-info-cancel" class="secondary-button" type="button">Back</button>
+    </div>
+  </div>
+</section>
+{% endblock %}

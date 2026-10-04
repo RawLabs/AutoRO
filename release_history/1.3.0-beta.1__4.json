@@ -1,0 +1,518 @@
+{
+  "manifest_version": "1.0",
+  "generated_at_utc": "2026-08-15T08:16:02.741616+00:00",
+  "release_id": "1.3.0-beta.1",
+  "archived_previous_manifest": {
+    "prior_release_id": "1.3.0-beta.1",
+    "archived_to": "/media/ghost/AutoRo/release_history/1.3.0-beta.1__3.json"
+  },
+  "identity_scope": {
+    "include_globs": [
+      "app/*.py",
+      "app/**/*.py",
+      "app/schema.sql",
+      "app/static/**/*.js",
+      "app/static/**/*.css",
+      "app/static/img/*",
+      "app/templates/**/*.html",
+      "dev_tools/*.py",
+      "dev_tools/**/*.py",
+      "docs/*.md",
+      "estimate_conversion/images/*",
+      "estimate_conversion/scripts/**/*.py",
+      "estimate_conversion/workspace/estimates/**/*.py",
+      "html_presentation/autoro_presentation.html",
+      "html_presentation/autoro_logo.png",
+      "Llamafile/*.bat",
+      "Llamafile/*.ps1",
+      "Llamafile/*.sh",
+      "shop_template/*.py",
+      "shop_template/*.md",
+      "shop_template/.env.template",
+      "Double Click to Start AutoRO Windows Useres .bat",
+      "Launch AutoRO (PowerShell).ps1",
+      "Modelfile",
+      "README.md",
+      "requirements.txt",
+      "install_linux_dependencies.sh",
+      "start_autoro_linux.sh"
+    ],
+    "exclude_dirs": [
+      ".Trash-1000",
+      ".git",
+      ".mypy_cache",
+      ".pytest_cache",
+      ".venv",
+      "Database",
+      "Tools",
+      "__pycache__",
+      "autoro_outbox",
+      "import_records",
+      "logs",
+      "node_modules",
+      "uploads",
+      "venv"
+    ]
+  },
+  "autoro_root": "/media/ghost/AutoRo",
+  "tree_fingerprint_sha256": "e3836f83bf4e7d26d429d007d60b111790e473567a8ff0998b293a428b0f4e9a",
+  "file_count": 72,
+  "newest_file_utc": "2026-08-15T08:15:24.330000+00:00",
+  "key_file_hashes": {
+    "app/main.py": "9e347873acc31493096d3f5aef84f1b231419914e902a6d70f911a2fcb44daa5",
+    "app/config.py": "894e248c5213f6d8c45d314854ad5e9318198bd939c1f8941b418b44943213a8",
+    "app/routes.py": "17e44409b709c19848cb8ed4d8b2c52373c7d326e2da15a4aa57680964ece53d",
+    "app/database.py": "3ec32a2973f2cc42e9038b1796b2eff49d1e670f46773ec15dd050a34f300699",
+    "app/schemas.py": "72f61f541f92a04bebeddd14e771779d8adf500e3a326cfcc3b2f422377c2687",
+    "app/estimate_conversion.py": "df110fcc98556ff738292452712b69866b24fd35139d303d216762326a36d66b",
+    "app/note_quality.py": "5615372a049dc2b211aed5154654543410075da1f84ff445ef4b6b87a9673afe",
+    "app/bg_rules.py": "6856d9d5fb124305afde7751be260e034c9db4102431e1cc29ed18a0857e602e",
+    "app/static/js/estimates.js": "b3375bb18bc89abe4a0bda0d6db0308bff6eda1a6987f403bc6897984b01a0c4",
+    "app/static/js/translator.js": "9a1e64e92b9bfc8e42daab82ff324561c72bd66086f6a4f2d2d3b4bfc4dbbf94",
+    "app/static/js/advisor_queue.js": "d419dc385914306c9aa49a5625bc3e20470abb1053298c019e4b5eb6621d7b0c",
+    "app/schema.sql": "03aa352c576df3d4e69766b12875197af3f2ee6e87b0badbc92a0cd2800561b4",
+    "Double Click to Start AutoRO Windows Useres .bat": "289af81faf59ede048456c43a265cad8ab1d506df1a4d924d40c0e580bc474fa",
+    "Launch AutoRO (PowerShell).ps1": "8c3891788668000e0edc0a4a3f16912a0c6a5cca5f08f29f2b8163056f1eff0f",
+    "Llamafile/start_model.bat": "b79b16af0839b4ed8166c0f2177c54baec7d58097b9e10ecd0431d07ac26f7f9",
+    "Llamafile/start_model_linux.sh": "e07ca6b98f751884817bed29a57c0504ba55324bead3ca1fea4a03d80775f5ba",
+    "shop_template/deploy_shop.py": "4dd03fe922fd74abb0baac8f3ab81648b741e4c7296e779ce818dee42cf34bd6",
+    "shop_template/.env.template": "44102d78e9cea011937054d30123f81b0dbb11e7a6e3d4d93b6cf95dec3373bb",
+    "README.md": "75f0ff36b0f16cdd50e9fa61b8fe68979e3d171e0d86af5cb54f95cc57c653ce",
+    "requirements.txt": "4c1c5d6b30882ca622df836c6d6512f7a946f00dc8649af37540e6658a607a67",
+    "start_autoro_linux.sh": "bfa664c864bdcfa592fac49e8e2f1e14148ac9982f08606dab52d5dccc7a0397"
+  },
+  "files": [
+    {
+      "path": "Double Click to Start AutoRO Windows Useres .bat",
+      "sha256": "289af81faf59ede048456c43a265cad8ab1d506df1a4d924d40c0e580bc474fa",
+      "size_bytes": 3292,
+      "mtime_utc": "2026-08-15T07:48:17.700000+00:00"
+    },
+    {
+      "path": "Launch AutoRO (PowerShell).ps1",
+      "sha256": "8c3891788668000e0edc0a4a3f16912a0c6a5cca5f08f29f2b8163056f1eff0f",
+      "size_bytes": 4131,
+      "mtime_utc": "2026-08-15T07:48:18.270000+00:00"
+    },
+    {
+      "path": "Llamafile/start_model.bat",
+      "sha256": "b79b16af0839b4ed8166c0f2177c54baec7d58097b9e10ecd0431d07ac26f7f9",
+      "size_bytes": 2410,
+      "mtime_utc": "2026-08-15T07:57:23.530000+00:00"
+    },
+    {
+      "path": "Llamafile/start_model_linux.sh",
+      "sha256": "e07ca6b98f751884817bed29a57c0504ba55324bead3ca1fea4a03d80775f5ba",
+      "size_bytes": 2845,
+      "mtime_utc": "2026-08-15T07:57:16.070000+00:00"
+    },
+    {
+      "path": "Llamafile/test_api.ps1",
+      "sha256": "d2b0e96574aabddcbdc661aa4097d6a51f1fd66452a44a4b2cd90cf6b62206a5",
+      "size_bytes": 508,
+      "mtime_utc": "2026-06-27T01:02:42.810000+00:00"
+    },
+    {
+      "path": "Llamafile/test_api_linux.sh",
+      "sha256": "c0060373fdfc08c3c923c61b6d62f682b1e3242a954ae2e84fc138d8999d0b4b",
+      "size_bytes": 365,
+      "mtime_utc": "2026-06-27T01:02:42.810000+00:00"
+    },
+    {
+      "path": "Modelfile",
+      "sha256": "3588c0632cf8f0b39d8dac49dce225b0e87373164cf59be8a4e1ee4402e2225b",
+      "size_bytes": 49,
+      "mtime_utc": "2026-08-15T07:48:45.880000+00:00"
+    },
+    {
+      "path": "README.md",
+      "sha256": "75f0ff36b0f16cdd50e9fa61b8fe68979e3d171e0d86af5cb54f95cc57c653ce",
+      "size_bytes": 11054,
+      "mtime_utc": "2026-08-15T08:15:23.780000+00:00"
+    },
+    {
+      "path": "app/__init__.py",
+      "sha256": "01ba4719c80b6fe911b091a7c05124b64eeece964e09c058ef8f9805daca546b",
+      "size_bytes": 1,
+      "mtime_utc": "2026-05-28T02:41:07.350000+00:00"
+    },
+    {
+      "path": "app/bg_rules.py",
+      "sha256": "6856d9d5fb124305afde7751be260e034c9db4102431e1cc29ed18a0857e602e",
+      "size_bytes": 34763,
+      "mtime_utc": "2026-07-14T02:39:32+00:00"
+    },
+    {
+      "path": "app/cleanup.py",
+      "sha256": "d08969b50395d1fd1253e624a95bab0fdb7bbc7249616d329e3b45b08fb14805",
+      "size_bytes": 2814,
+      "mtime_utc": "2026-07-14T02:21:50+00:00"
+    },
+    {
+      "path": "app/config.py",
+      "sha256": "894e248c5213f6d8c45d314854ad5e9318198bd939c1f8941b418b44943213a8",
+      "size_bytes": 2579,
+      "mtime_utc": "2026-08-15T07:53:53.100000+00:00"
+    },
+    {
+      "path": "app/database.py",
+      "sha256": "3ec32a2973f2cc42e9038b1796b2eff49d1e670f46773ec15dd050a34f300699",
+      "size_bytes": 34278,
+      "mtime_utc": "2026-07-14T02:23:08+00:00"
+    },
+    {
+      "path": "app/estimate_conversion.py",
+      "sha256": "df110fcc98556ff738292452712b69866b24fd35139d303d216762326a36d66b",
+      "size_bytes": 24789,
+      "mtime_utc": "2026-08-15T08:13:14.670000+00:00"
+    },
+    {
+      "path": "app/estimate_naming.py",
+      "sha256": "215315f53fe3028defda86a4fab9a761cabb75e1a52df2d4e4d0923c24d52344",
+      "size_bytes": 2373,
+      "mtime_utc": "2026-08-15T08:13:14.130000+00:00"
+    },
+    {
+      "path": "app/intake_quality.py",
+      "sha256": "729c4137004076a211d6d56a385bd049a957323aa11044d0689ed31443e6903b",
+      "size_bytes": 9207,
+      "mtime_utc": "2026-07-02T21:12:40.460000+00:00"
+    },
+    {
+      "path": "app/logger.py",
+      "sha256": "f211e56368ab71f0e8f365752e28bd2eb8b06c01a3ce342d900fd0581ac72d4c",
+      "size_bytes": 1767,
+      "mtime_utc": "2026-07-01T04:20:10.660000+00:00"
+    },
+    {
+      "path": "app/main.py",
+      "sha256": "9e347873acc31493096d3f5aef84f1b231419914e902a6d70f911a2fcb44daa5",
+      "size_bytes": 2088,
+      "mtime_utc": "2026-08-15T07:41:53.670000+00:00"
+    },
+    {
+      "path": "app/model_client.py",
+      "sha256": "1ad8aaaa43975b2315d615ef88e62cfe54f7eac897b324164c075c596bf3db9c",
+      "size_bytes": 3542,
+      "mtime_utc": "2026-08-15T05:11:06.150000+00:00"
+    },
+    {
+      "path": "app/network_guard.py",
+      "sha256": "5d19c7cc48609ee245cf47731c99b25ba0f723252fa58494facc1faa4e0b0067",
+      "size_bytes": 3421,
+      "mtime_utc": "2026-07-14T02:21:52+00:00"
+    },
+    {
+      "path": "app/normalizer.py",
+      "sha256": "7fe43b9306ff406def027e775b502c080baae5787f7f0bb31f6a4b85fb63e79a",
+      "size_bytes": 7769,
+      "mtime_utc": "2026-06-27T22:38:39.710000+00:00"
+    },
+    {
+      "path": "app/note_quality.py",
+      "sha256": "5615372a049dc2b211aed5154654543410075da1f84ff445ef4b6b87a9673afe",
+      "size_bytes": 6805,
+      "mtime_utc": "2026-06-27T22:34:50.480000+00:00"
+    },
+    {
+      "path": "app/ollama_client.py",
+      "sha256": "c61f9ea75a4953494771709c1125a15230dcb68ee2c66daec262f9a50ead48fd",
+      "size_bytes": 1694,
+      "mtime_utc": "2026-05-28T02:37:32.470000+00:00"
+    },
+    {
+      "path": "app/operations_reports.py",
+      "sha256": "75095384998c5e6f986e75d37664c9ac08e0d5f73d74429d45a6949a83eee069",
+      "size_bytes": 11193,
+      "mtime_utc": "2026-07-12T05:07:10+00:00"
+    },
+    {
+      "path": "app/parse_asr_pdf.py",
+      "sha256": "2e66ffee60d66004046c1570c799f10d3a3f6fdae6fe9435e2fbfe30befa9db3",
+      "size_bytes": 15371,
+      "mtime_utc": "2026-08-15T05:13:30.310000+00:00"
+    },
+    {
+      "path": "app/prompt_templates.py",
+      "sha256": "faba5f5858b2e8781efa046ac32fa2824eec481ee408994af65cba67c02eab05",
+      "size_bytes": 5502,
+      "mtime_utc": "2026-08-13T05:04:17.230000+00:00"
+    },
+    {
+      "path": "app/routes.py",
+      "sha256": "17e44409b709c19848cb8ed4d8b2c52373c7d326e2da15a4aa57680964ece53d",
+      "size_bytes": 37580,
+      "mtime_utc": "2026-08-15T08:14:10.610000+00:00"
+    },
+    {
+      "path": "app/schema.sql",
+      "sha256": "03aa352c576df3d4e69766b12875197af3f2ee6e87b0badbc92a0cd2800561b4",
+      "size_bytes": 4961,
+      "mtime_utc": "2026-06-30T04:43:44.790000+00:00"
+    },
+    {
+      "path": "app/schemas.py",
+      "sha256": "72f61f541f92a04bebeddd14e771779d8adf500e3a326cfcc3b2f422377c2687",
+      "size_bytes": 4858,
+      "mtime_utc": "2026-07-02T21:12:46.630000+00:00"
+    },
+    {
+      "path": "app/static/css/app.css",
+      "sha256": "672be83533bed0091825540755c5a35b76a5090daa46694fd4507033941d9842",
+      "size_bytes": 23730,
+      "mtime_utc": "2026-08-15T07:36:00.590000+00:00"
+    },
+    {
+      "path": "app/static/img/autoro-logo.png",
+      "sha256": "1fa9924596625abfac93c3f991d7e220b34b55a2ea012dc4b74687788a7b306f",
+      "size_bytes": 1032890,
+      "mtime_utc": "2026-08-13T05:19:31.920000+00:00"
+    },
+    {
+      "path": "app/static/img/proactive-automotive-logo.png",
+      "sha256": "70f22ebf63151a237f946f47997adaa2d6ca6618260a9f20d56a8998d1f1158a",
+      "size_bytes": 2013279,
+      "mtime_utc": "2026-05-30T08:38:48.620000+00:00"
+    },
+    {
+      "path": "app/static/js/advisor_queue.js",
+      "sha256": "d419dc385914306c9aa49a5625bc3e20470abb1053298c019e4b5eb6621d7b0c",
+      "size_bytes": 14193,
+      "mtime_utc": "2026-07-02T21:13:23.900000+00:00"
+    },
+    {
+      "path": "app/static/js/api.js",
+      "sha256": "2fedba0fe20fbf97c4f9f3f577498fddc4afb1ed618f65ddf3c1d7eeb6741e7a",
+      "size_bytes": 2409,
+      "mtime_utc": "2026-05-30T16:53:49.090000+00:00"
+    },
+    {
+      "path": "app/static/js/app.js",
+      "sha256": "702c0783035f179d9a773996f545170d2f3cda726b49afdd41d1705e076dc43b",
+      "size_bytes": 3826,
+      "mtime_utc": "2026-08-15T07:36:00.020000+00:00"
+    },
+    {
+      "path": "app/static/js/bg.js",
+      "sha256": "bf5c87400d2575b77d20f5779755823bd59c059fcf1cba7030a91e00aa581cae",
+      "size_bytes": 14286,
+      "mtime_utc": "2026-06-24T23:59:57.380000+00:00"
+    },
+    {
+      "path": "app/static/js/cases.js",
+      "sha256": "4a361b22c1eca24b00f19fd9a1c1161ce15e5fd5596fcfedf628212e7a4ca03d",
+      "size_bytes": 5341,
+      "mtime_utc": "2026-05-30T08:24:03.940000+00:00"
+    },
+    {
+      "path": "app/static/js/estimate_inshop.js",
+      "sha256": "ef7a44f33a1e0d0d373493c2f3e4b37a211778c87fbf610dce4cae9514a654fd",
+      "size_bytes": 10048,
+      "mtime_utc": "2026-08-15T08:14:27.570000+00:00"
+    },
+    {
+      "path": "app/static/js/estimates.js",
+      "sha256": "b3375bb18bc89abe4a0bda0d6db0308bff6eda1a6987f403bc6897984b01a0c4",
+      "size_bytes": 17701,
+      "mtime_utc": "2026-08-15T08:14:20.440000+00:00"
+    },
+    {
+      "path": "app/static/js/management.js",
+      "sha256": "0b5c1b6c0cac86ab95c4006b3385d654ca222ab1bd04fb8861dd38ec0c1c4620",
+      "size_bytes": 5976,
+      "mtime_utc": "2026-06-26T02:38:55.490000+00:00"
+    },
+    {
+      "path": "app/static/js/manager.js",
+      "sha256": "8ea354db79a1c02cb0505912061ac79f16ac5fd92b997409ddff21c11ef13546",
+      "size_bytes": 11147,
+      "mtime_utc": "2026-06-25T06:51:58.470000+00:00"
+    },
+    {
+      "path": "app/static/js/translator.js",
+      "sha256": "9a1e64e92b9bfc8e42daab82ff324561c72bd66086f6a4f2d2d3b4bfc4dbbf94",
+      "size_bytes": 9235,
+      "mtime_utc": "2026-06-27T05:23:15.650000+00:00"
+    },
+    {
+      "path": "app/upload_security.py",
+      "sha256": "3413e6436b12f8dd86692ea29ed63eb6186f0e64a347641eccbd3d5f95b3f87d",
+      "size_bytes": 1717,
+      "mtime_utc": "2026-07-12T04:49:20+00:00"
+    },
+    {
+      "path": "dev_tools/autoro_health_check.py",
+      "sha256": "9ea59cda51d40821cc90fe80c4bc2cb5fede181a15808f97ca050e204e0d60f4",
+      "size_bytes": 10151,
+      "mtime_utc": "2026-08-15T07:47:23.800000+00:00"
+    },
+    {
+      "path": "dev_tools/overnight_cycle_test.py",
+      "sha256": "92f6880ed1cd3847cb4e19d1090fe67f008f04633f56dfc2d75164969de99f19",
+      "size_bytes": 7909,
+      "mtime_utc": "2026-08-15T07:53:54.220000+00:00"
+    },
+    {
+      "path": "dev_tools/release_identity.py",
+      "sha256": "a507b0fd59e1023ab4f1ad774ecd334d192f2a6262d80c27bd27f752a31c56c4",
+      "size_bytes": 10359,
+      "mtime_utc": "2026-08-15T07:59:10.430000+00:00"
+    },
+    {
+      "path": "dev_tools/test_beta_wiring.py",
+      "sha256": "1efffc4159ba88dd9682820d4947e1e524e3ec68406cae0ebcfe6fb529109115",
+      "size_bytes": 2500,
+      "mtime_utc": "2026-08-15T07:56:22.590000+00:00"
+    },
+    {
+      "path": "dev_tools/test_bg_services.py",
+      "sha256": "da227839b385979b92fe73bb7d1a58aaa52f269e1f0d321c8c30d879363d0b1e",
+      "size_bytes": 644,
+      "mtime_utc": "2026-07-14T02:39:32+00:00"
+    },
+    {
+      "path": "dev_tools/test_clean_distribution.py",
+      "sha256": "1cac5bee3a9de6d0dc7c64b2984eed48efbc6ed3011ef6c56c46d82686a07a69",
+      "size_bytes": 4339,
+      "mtime_utc": "2026-07-12T04:42:32+00:00"
+    },
+    {
+      "path": "dev_tools/test_database_recovery.py",
+      "sha256": "f1e01791bc3ed74d7a4559b292b9c386487b88e0a0425a142a3559c1f3fb55b3",
+      "size_bytes": 1663,
+      "mtime_utc": "2026-07-14T02:22:44+00:00"
+    },
+    {
+      "path": "dev_tools/test_estimate_naming.py",
+      "sha256": "a99cf58ab4fa8b5199669c78cee74359e9c074ee04cde89001f4c43daceb2085",
+      "size_bytes": 1649,
+      "mtime_utc": "2026-08-15T08:14:45.300000+00:00"
+    },
+    {
+      "path": "dev_tools/test_filesystem_containment.py",
+      "sha256": "3854cd271cdd42638cda4c50ff712e86d7e3810fdf828b186e5ea99920c89745",
+      "size_bytes": 4135,
+      "mtime_utc": "2026-07-12T05:08:00+00:00"
+    },
+    {
+      "path": "dev_tools/test_inshop_dom_safety.py",
+      "sha256": "e7af00dbe19104d5069304d8d48ce5b5fa8fcf089dff7de892462ab5b3b0360e",
+      "size_bytes": 1843,
+      "mtime_utc": "2026-07-12T05:04:14+00:00"
+    },
+    {
+      "path": "dev_tools/test_inshop_flow.py",
+      "sha256": "af959d5c016c54fb8ae6e1292d975f68c7b59355982b15a6241713049b75f9e3",
+      "size_bytes": 3759,
+      "mtime_utc": "2026-08-15T07:54:43.560000+00:00"
+    },
+    {
+      "path": "dev_tools/test_network_guard.py",
+      "sha256": "01e7796e92f999af8d0a329d791393fc2f7977c1c5f6cfcc977c7828a91fdef3",
+      "size_bytes": 3469,
+      "mtime_utc": "2026-08-15T07:44:17.270000+00:00"
+    },
+    {
+      "path": "dev_tools/test_sanity_checks.py",
+      "sha256": "d4b1c8c2e0d9fd1b1b4aa8db233c3657e0fb761f9b20559f5129b341574dded5",
+      "size_bytes": 4072,
+      "mtime_utc": "2026-07-11T08:02:04.330000+00:00"
+    },
+    {
+      "path": "dev_tools/test_upload_resource_controls.py",
+      "sha256": "f726436a3d668deb75f1bb0375ed8bcddd852ab7cc232fa63f78fd976af8c73b",
+      "size_bytes": 2641,
+      "mtime_utc": "2026-07-12T04:51:54+00:00"
+    },
+    {
+      "path": "docs/AutoRO_Deficiency_Report_2026-07-11.md",
+      "sha256": "fd45f3d939595679d74f7050c21b91a67bd65593bffcb53bf5466b516650ea62",
+      "size_bytes": 14785,
+      "mtime_utc": "2026-08-15T07:31:50.900000+00:00"
+    },
+    {
+      "path": "docs/AutoRO_Sales_Guide.md",
+      "sha256": "4daf71716497a1c1270be79aef352de8f89aa47f838f9f8f05798223e5c18cd8",
+      "size_bytes": 7569,
+      "mtime_utc": "2026-08-15T07:31:18.610000+00:00"
+    },
+    {
+      "path": "docs/BETA_LIVE_TESTING.md",
+      "sha256": "c3696612eb02e67bbc4f511289343cc716bfd9f58b42c71659ae70c7ec01ac26",
+      "size_bytes": 4251,
+      "mtime_utc": "2026-08-15T08:15:24.330000+00:00"
+    },
+    {
+      "path": "docs/OSCOO_USSD_Audit_Report.md",
+      "sha256": "754d22dd6d56741f3d69377fd1e0e9cf4e11ed4cb3f1929b853aee902bddff21",
+      "size_bytes": 5823,
+      "mtime_utc": "2026-08-15T07:48:50.260000+00:00"
+    },
+    {
+      "path": "estimate_conversion/images/autoro_logo.png",
+      "sha256": "1fa9924596625abfac93c3f991d7e220b34b55a2ea012dc4b74687788a7b306f",
+      "size_bytes": 1032890,
+      "mtime_utc": "2026-08-13T05:19:31.930000+00:00"
+    },
+    {
+      "path": "estimate_conversion/images/proactive logo.png",
+      "sha256": "70f22ebf63151a237f946f47997adaa2d6ca6618260a9f20d56a8998d1f1158a",
+      "size_bytes": 2013279,
+      "mtime_utc": "2026-08-13T05:08:57.450000+00:00"
+    },
+    {
+      "path": "html_presentation/autoro_logo.png",
+      "sha256": "1fa9924596625abfac93c3f991d7e220b34b55a2ea012dc4b74687788a7b306f",
+      "size_bytes": 1032890,
+      "mtime_utc": "2026-07-30T03:16:10.710000+00:00"
+    },
+    {
+      "path": "html_presentation/autoro_presentation.html",
+      "sha256": "11342fcd0d57b482b8bebfb6d5a0563e6274cfb7e3bba0d84cdef4c668333f46",
+      "size_bytes": 27108,
+      "mtime_utc": "2026-08-15T07:53:54.780000+00:00"
+    },
+    {
+      "path": "install_linux_dependencies.sh",
+      "sha256": "335d9d1285632ec3f6d80f193199cd54116faad41b0b5c14f23ccdd090ea8460",
+      "size_bytes": 868,
+      "mtime_utc": "2026-07-01T05:20:46.770000+00:00"
+    },
+    {
+      "path": "requirements.txt",
+      "sha256": "4c1c5d6b30882ca622df836c6d6512f7a946f00dc8649af37540e6658a607a67",
+      "size_bytes": 89,
+      "mtime_utc": "2026-06-24T06:05:04.360000+00:00"
+    },
+    {
+      "path": "shop_template/.env.template",
+      "sha256": "44102d78e9cea011937054d30123f81b0dbb11e7a6e3d4d93b6cf95dec3373bb",
+      "size_bytes": 1792,
+      "mtime_utc": "2026-08-15T08:01:03.900000+00:00"
+    },
+    {
+      "path": "shop_template/AutoRO_shop_demo/runtime/data/bg_data/BG_LPP_Rules_Official_2025_README.md",
+      "sha256": "bca87a79a3910182c40f971b01427d653acda3fe1f1945439cf90a71f343d7cc",
+      "size_bytes": 2172,
+      "mtime_utc": "2026-06-27T01:02:42.820000+00:00"
+    },
+    {
+      "path": "shop_template/README.md",
+      "sha256": "8f029d1b4197386a17e14be4db83e43303c7040b25c41d4be6dd71edaee7ba74",
+      "size_bytes": 5116,
+      "mtime_utc": "2026-08-15T07:31:18.050000+00:00"
+    },
+    {
+      "path": "shop_template/deploy_shop.py",
+      "sha256": "4dd03fe922fd74abb0baac8f3ab81648b741e4c7296e779ce818dee42cf34bd6",
+      "size_bytes": 12072,
+      "mtime_utc": "2026-08-15T07:52:28.580000+00:00"
+    },
+    {
+      "path": "start_autoro_linux.sh",
+      "sha256": "bfa664c864bdcfa592fac49e8e2f1e14148ac9982f08606dab52d5dccc7a0397",
+      "size_bytes": 5105,
+      "mtime_utc": "2026-08-15T07:48:17.140000+00:00"
+    }
+  ]
+}
