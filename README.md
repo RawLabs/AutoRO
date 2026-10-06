@@ -16,7 +16,101 @@ AutoRO turns technician notes and Mitchell estimate data into clear, customer-re
 
 **Version 1.3.0-beta.1** is the official Beta release for live shop testing. The portable distribution carries the local model and supporting tools; this repository contains the application source, launchers, and documentation.
 
-### From the bay to the customer
+## Quick start
+
+Using the portable Beta drive? Start the Windows launcher
+`Double Click to Start AutoRO Windows Useres .bat`, or run
+`<AutoRO drive>/start_autoro_linux.sh` on Linux. The launcher opens your browser;
+keep the server windows open while you work. A source checkout needs the
+[installation steps](#installation) and the local model/supporting tools.
+
+1. For technician notes, open **Translator**, enter the findings, and review the
+   customer-facing explanation before sharing it.
+2. For an estimate, choose the out-of-shop, in-shop, or Custom Build workflow,
+   upload the Mitchell estimate PDF, and add the concern/findings or build notes
+   requested by that workflow.
+3. Review any preflight warnings, then review the generated PDF. Mitchell remains
+   the source of prices; the service advisor remains responsible for the result.
+
+AutoRO runs on the same computer as your browser. For startup problems or slow
+model responses, see [troubleshooting](#estimate-troubleshooting).
+
+<a id="-native-startup"></a>
+
+## Installation
+
+### Windows Launch (Primary & Portable)
+
+This drive is fully equipped for Windows. It runs entirely on-board without installing anything on the host computer.
+Recommended bat script from the drive root:
+```text
+Double Click to Start AutoRO Windows Useres .bat
+```
+The launcher starts the Qwen model and AutoRO server, then opens the browser as soon as the web app is ready while model loading continues. Keep the two command windows open while AutoRO is running.
+
+### Linux Launch
+
+Launch the one-step optimizer script:
+```bash
+<AutoRO drive>/start_autoro_linux.sh
+```
+*Note: The Linux script is fully automated. If you haven't run it before, it will automatically build a local Python environment and securely install dependencies offline from `Tools/Wheelhouse_Linux`. You only need to ensure `python3` and `poppler-utils` are installed on the host machine using the provided helper script if needed:*
+```bash
+sudo bash install_linux_dependencies.sh
+```
+
+Check the app launcher config without starting the server:
+```bash
+<AutoRO drive>/start_autoro_linux.sh --check
+```
+
+---
+
+### From source on Linux
+
+From the AutoRO root:
+1. Set up a virtual environment:
+   ```bash
+   python3 -m venv .venv
+   source .venv/bin/activate
+   pip install -r requirements.txt
+   ```
+2. Run startup check and launch:
+   ```bash
+   ./start_autoro_linux.sh --check
+   ./start_autoro_linux.sh
+   ```
+
+## Current Beta Workflows
+
+- **Translator:** rewrites rough technician notes into advisor/customer language.
+- **Pre-estimate - out of shop:** parses the uploaded Mitchell PDF, preserves its financial data, and adds concise customer-facing explanations. If AI enrichment is unavailable, source-grounded local wording is used.
+- **Estimate - in shop:** combines the Mitchell estimate with a customer concern and technician findings, including detailed labour and parts breakdowns.
+- **Custom build package:** combines polished project wording with the detailed in-shop parts/labour presentation. AI is limited to spelling, grammar, and cleaned titles; scope and prices remain parser-controlled.
+- **BG Coverage, Advisor Queue, Management, and Operations:** remain local supporting workflows.
+
+Generated estimate filenames carry the selected workflow and the original source identity, for example:
+
+```text
+OUT_OF_SHOP_ESTIMATE_DAX_NADERI_GX460.pdf
+IN_SHOP_ESTIMATE_DAX_NADERI_GX460.pdf
+CUSTOM_BUILD_DAX_NADERI_GX460.pdf
+```
+
+Regenerating the same workflow for the same source estimate replaces that workflow's prior output instead of adding timestamp-heavy duplicates.
+
+## Estimate Troubleshooting
+
+- **Status briefly shows Error while a PDF still completes:** inspect `runtime/logs/autoro_*.log`. Beta workflows continue with local fallback wording when language enrichment times out.
+- **Custom Build returns a refresh message:** refresh `/estimate-conversion`; the JavaScript asset is versioned to prevent stale browsers from using the retired proposal route.
+- **Model is slow:** the bundled llamafile may run CPU-only even when an NVIDIA device is detected. The model log will state whether GPU layers were accepted.
+- **No text in an in-shop/custom workflow:** enter at least a concern, technician finding, build goal, or intended-use note. Blank submissions are rejected before AI analysis.
+- **Source wording is poor:** correct job titles/descriptions in Mitchell when practical. AutoRO performs conservative spelling cleanup but does not rewrite part numbers or silently change scope.
+
+---
+
+## From the bay to the customer
+
 
 ```mermaid
 flowchart LR
@@ -44,7 +138,7 @@ flowchart LR
 
 No cloud services, no npm, no React, no accounts.
 
-[Startup](#-native-startup) · [Beta workflows](#current-beta-workflows) · [Live testing guide](docs/BETA_LIVE_TESTING.md) · [Sales guide](docs/AutoRO_Sales_Guide.md) · [HTML presentation](html_presentation/autoro_presentation.html)
+[Installation and startup](#installation) · [Beta workflows](#current-beta-workflows) · [Live testing guide](docs/BETA_LIVE_TESTING.md) · [Sales guide](docs/AutoRO_Sales_Guide.md) · [HTML presentation](html_presentation/autoro_presentation.html)
 
 ---
 
@@ -54,23 +148,17 @@ Host headers, and cross-site state-changing browser requests. Do not publish or
 reverse-proxy the service onto a shop LAN; network mode requires a separate
 authenticated deployment design.
 
-## Current Beta Workflows
+## 🩺 Estimate Preflight Sanity Checks
 
-- **Translator:** rewrites rough technician notes into advisor/customer language.
-- **Pre-estimate - out of shop:** parses the uploaded Mitchell PDF, preserves its financial data, and adds concise customer-facing explanations. If AI enrichment is unavailable, source-grounded local wording is used.
-- **Estimate - in shop:** combines the Mitchell estimate with a customer concern and technician findings, including detailed labour and parts breakdowns.
-- **Custom build package:** combines polished project wording with the detailed in-shop parts/labour presentation. AI is limited to spelling, grammar, and cleaned titles; scope and prices remain parser-controlled.
-- **BG Coverage, Advisor Queue, Management, and Operations:** remain local supporting workflows.
+To act as a backstop for human errors in imported Mitchell estimates, a preflight check runs automatically before building any PDF copy. It identifies and flags high-signal issues, presenting them as a consolidated bulleted list to the service advisor:
 
-Generated estimate filenames carry the selected workflow and the original source identity, for example:
+*   **Parts Without Labor**: Flags any job line where parts have a positive cost but labor is `0.0` hours (with support for "No Charge" / "NC" overrides).
+*   **Misplaced Parts**: Detects when steering rack parts (e.g. `Rack and Pinion`) are listed under a steering pump job title instead of a steering rack replacement job, suggesting that they belong to the rack line.
+*   **Duplicate/Split Lines**: Identifies duplicate lines for the same steering component (pump or rack) in the same estimate where one line is left with `0.0` labor hours.
 
-```text
-OUT_OF_SHOP_ESTIMATE_DAX_NADERI_GX460.pdf
-IN_SHOP_ESTIMATE_DAX_NADERI_GX460.pdf
-CUSTOM_BUILD_DAX_NADERI_GX460.pdf
-```
+The service advisor has full control to either cancel and correct the original estimate in Mitchell, or suppress the warning and build the PDF as is.
 
-Regenerating the same workflow for the same source estimate replaces that workflow's prior output instead of adding timestamp-heavy duplicates.
+---
 
 ## Current Model Runtime
 
@@ -87,33 +175,6 @@ Model files:
 ```
 
 *Note: CPU execution thread count is capped at 8 by default to prevent core contention and thread-scheduling latency (particularly on modern hybrid CPUs with P-cores and E-cores).*
-
----
-
-## ⚙️ Native Startup
-
-### Windows Launch (Primary & Portable)
-This drive is fully equipped for Windows. It runs entirely on-board without installing anything on the host computer.
-Recommended bat script from the drive root:
-```text
-Double Click to Start AutoRO Windows Useres .bat
-```
-The launcher starts the Qwen model and AutoRO server, then opens the browser as soon as the web app is ready while model loading continues. Keep the two command windows open while AutoRO is running.
-
-### Linux Launch
-Launch the one-step optimizer script:
-```bash
-<AutoRO drive>/start_autoro_linux.sh
-```
-*Note: The Linux script is fully automated. If you haven't run it before, it will automatically build a local Python environment and securely install dependencies offline from `Tools/Wheelhouse_Linux`. You only need to ensure `python3` and `poppler-utils` are installed on the host machine using the provided helper script if needed:*
-```bash
-sudo bash install_linux_dependencies.sh
-```
-
-Check the app launcher config without starting the server:
-```bash
-<AutoRO drive>/start_autoro_linux.sh --check
-```
 
 ---
 
@@ -139,18 +200,6 @@ To maintain a clean user-facing experience when opening the USB drive, runtime s
 ├── README.md                       # Project documentation
 └── start_autoro_linux.sh           # Native Linux orchestrator
 ```
-
----
-
-## 🩺 Estimate Preflight Sanity Checks
-
-To act as a backstop for human errors in imported Mitchell estimates, a preflight check runs automatically before building any PDF copy. It identifies and flags high-signal issues, presenting them as a consolidated bulleted list to the service advisor:
-
-*   **Parts Without Labor**: Flags any job line where parts have a positive cost but labor is `0.0` hours (with support for "No Charge" / "NC" overrides).
-*   **Misplaced Parts**: Detects when steering rack parts (e.g. `Rack and Pinion`) are listed under a steering pump job title instead of a steering rack replacement job, suggesting that they belong to the rack line.
-*   **Duplicate/Split Lines**: Identifies duplicate lines for the same steering component (pump or rack) in the same estimate where one line is left with `0.0` labor hours.
-
-The service advisor has full control to either cancel and correct the original estimate in Mitchell, or suppress the warning and build the PDF as is.
 
 ---
 
@@ -184,6 +233,7 @@ http://127.0.0.1:8000/docs
 Endpoints return explicit Pydantic response models, providing complete request-to-response schemas.
 
 ### Primary Pages & APIs:
+
 *   `/` - Dashboard.
 *   `/translate` - Technician-note translator with qualifier chips.
 *   `/estimate-conversion` - Pre-estimate, in-shop estimate, and Custom Build PDF workflows. Imported pricing remains the source of truth; AI may improve wording but cannot modify financial fields.
@@ -195,6 +245,7 @@ Endpoints return explicit Pydantic response models, providing complete request-t
 ---
 
 ## 🔒 Protected Operations Digest
+
 Security code: `2470`
 
 Operations reports are read from: `runtime/reports`
@@ -236,28 +287,3 @@ AUTORO_SHOP_EMAIL=autoroestimate@gmail.com
 Customer phone numbers may still appear in customer-information fields imported from the source estimate. The AutoRO pilot identity does not publish a shop street address, shop telephone number, or fax number.
 
 ---
-
-## Estimate Troubleshooting
-
-- **Status briefly shows Error while a PDF still completes:** inspect `runtime/logs/autoro_*.log`. Beta workflows continue with local fallback wording when language enrichment times out.
-- **Custom Build returns a refresh message:** refresh `/estimate-conversion`; the JavaScript asset is versioned to prevent stale browsers from using the retired proposal route.
-- **Model is slow:** the bundled llamafile may run CPU-only even when an NVIDIA device is detected. The model log will state whether GPU layers were accepted.
-- **No text in an in-shop/custom workflow:** enter at least a concern, technician finding, build goal, or intended-use note. Blank submissions are rejected before AI analysis.
-- **Source wording is poor:** correct job titles/descriptions in Mitchell when practical. AutoRO performs conservative spelling cleanup but does not rewrite part numbers or silently change scope.
-
----
-
-## 🛠️ Local Linux Native Setup (Development)
-
-From the AutoRO root:
-1. Set up a virtual environment:
-   ```bash
-   python3 -m venv .venv
-   source .venv/bin/activate
-   pip install -r requirements.txt
-   ```
-2. Run startup check and launch:
-   ```bash
-   ./start_autoro_linux.sh --check
-   ./start_autoro_linux.sh
-   ```
